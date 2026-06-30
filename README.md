@@ -60,7 +60,18 @@ python macro_gui.py
 Nothing is pre-set: click any key-cap and press the key you want to bind it
 (record, play, slower, faster, save, load, quit). Big RECORD / PLAY toggles
 light up while active, a speed slider scales playback, and there's a live
-activity log plus Save As / Load buttons.
+activity log plus Save / Load buttons.
+
+**Multiple macro slots, each with its own key and hold-to-repeat:**
+
+- Use **MACRO SLOTS** to add / rename / remove as many macros as you like.
+- The selected slot is the one **RECORD** captures into.
+- Give each slot its own **trigger key** (click `TRIGGER KEY`, press a key).
+- Toggle **HOLD TO REPEAT** per slot:
+  - **ON**  → hold the trigger key and the macro loops until you let go.
+  - **OFF** → tap the trigger key to play the macro once.
+- `SAVE ALL… / LOAD…` save and restore your whole workspace (every slot,
+  trigger and setting) to one `.json` file.
 
 **Console (no window)** — same engine, hotkey-only:
 

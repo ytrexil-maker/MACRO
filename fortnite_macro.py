@@ -212,9 +212,18 @@ class MacroEngine:
         self.cfg = cfg
         self.audio = Audio(cfg)
 
-        self.events = []           # the last recording
+        # Macro slots: each is an independent recording with its own trigger
+        # key and an optional "hold to repeat" mode.
+        self.slots = [self._new_slot("Macro 1")]
+        self.active = 0
+
         self.recording = False
         self.playing = False
+
+        # Per-slot trigger-playback bookkeeping.
+        self._slot_stops = {}        # slot idx -> threading.Event (stop signal)
+        self._slot_threads = {}      # slot idx -> Thread
+        self._held_triggers = set()  # slot indices whose trigger is held down
 
         self._rec_start = 0.0
         self._mouse_listener = None
@@ -231,9 +240,6 @@ class MacroEngine:
                 "save_key", "load_key", "quit_key",
             )
         }
-        # Set of hotkeys we must NOT record (so control keys don't pollute macros).
-        self._control_keys = set(self._hotkeys.values())
-
         self._stop_flag = threading.Event()   # signals app quit
         self._play_stop = threading.Event()    # signals "stop current playback"
 
@@ -260,6 +266,67 @@ class MacroEngine:
                 self.on_state_change()
             except Exception:
                 pass
+
+    # ----- slots ---------------------------------------------------------- #
+    @staticmethod
+    def _new_slot(name):
+        return {
+            "name": name,
+            "events": [],
+            "trigger": None,      # key object, or None if unbound
+            "hold_repeat": True,  # while the trigger is held, loop the macro
+        }
+
+    # ``events`` always points at the active slot so recording / the main
+    # play hotkey operate on whichever slot you have selected.
+    @property
+    def events(self):
+        return self.slots[self.active]["events"]
+
+    @events.setter
+    def events(self, value):
+        self.slots[self.active]["events"] = value
+
+    def add_slot(self, name=None):
+        name = name or f"Macro {len(self.slots) + 1}"
+        self.slots.append(self._new_slot(name))
+        self.active = len(self.slots) - 1
+        self._log(f"[SLOT] Added '{name}'")
+        self._notify_state()
+        return self.active
+
+    def remove_slot(self, idx):
+        if len(self.slots) <= 1:
+            self._log("[SLOT] At least one slot is required.")
+            return
+        self.stop_slot(idx)
+        name = self.slots[idx]["name"]
+        del self.slots[idx]
+        self.active = max(0, min(self.active, len(self.slots) - 1))
+        self._log(f"[SLOT] Removed '{name}'")
+        self._notify_state()
+
+    def rename_slot(self, idx, name):
+        if 0 <= idx < len(self.slots) and name.strip():
+            self.slots[idx]["name"] = name.strip()
+            self._notify_state()
+
+    def set_active(self, idx):
+        if 0 <= idx < len(self.slots):
+            self.active = idx
+            self._notify_state()
+
+    def set_hold_repeat(self, idx, value):
+        if 0 <= idx < len(self.slots):
+            self.slots[idx]["hold_repeat"] = bool(value)
+            self._log(f"[SLOT] '{self.slots[idx]['name']}' hold-to-repeat "
+                      f"{'ON' if value else 'OFF'}")
+
+    def _slot_for_key(self, key):
+        for i, s in enumerate(self.slots):
+            if s["trigger"] is not None and self._same_key(key, s["trigger"]):
+                return i
+        return None
 
     # ----- hotkey parsing ------------------------------------------------- #
     @staticmethod
@@ -289,7 +356,10 @@ class MacroEngine:
         return False
 
     def _is_control_key(self, key):
-        return any(self._same_key(key, ck) for ck in self._control_keys)
+        # Hotkeys and slot triggers must never be captured into a recording.
+        if any(self._same_key(key, ck) for ck in self._hotkeys.values()):
+            return True
+        return self._slot_for_key(key) is not None
 
     @staticmethod
     def key_display(key):
@@ -305,25 +375,38 @@ class MacroEngine:
         return f"VK{vk}" if vk is not None else str(key)
 
     # ----- live rebinding (used by the GUI) ------------------------------- #
-    def begin_capture(self, binding_name):
-        """Arm capture: the next key you press becomes this binding."""
-        self._capture_target = binding_name
-        self._log(f"[BIND] Press a key to set '{binding_name}'...")
+    def begin_capture(self, target):
+        """Arm capture: the next key you press becomes this binding.
+
+        ``target`` is a global hotkey name (str) or ("slot", idx) for a slot
+        trigger key.
+        """
+        self._capture_target = target
+        if isinstance(target, tuple) and target[0] == "slot":
+            label = self.slots[target[1]]["name"]
+        else:
+            label = str(target)
+        self._log(f"[BIND] Press a key to set '{label}'...")
 
     def cancel_capture(self):
         self._capture_target = None
 
     def _handle_capture(self, key):
-        name = self._capture_target
+        target = self._capture_target
         self._capture_target = None
-        self._hotkeys[name] = key
-        self.cfg[name] = self.key_display(key).lower()
-        self._control_keys = set(self._hotkeys.values())
         label = self.key_display(key)
-        self._log(f"[BIND] '{name}' set to {label}")
+        if isinstance(target, tuple) and target[0] == "slot":
+            idx = target[1]
+            if 0 <= idx < len(self.slots):
+                self.slots[idx]["trigger"] = key
+                self._log(f"[BIND] '{self.slots[idx]['name']}' trigger = {label}")
+        else:
+            self._hotkeys[target] = key
+            self.cfg[target] = label.lower()
+            self._log(f"[BIND] '{target}' set to {label}")
         if self.on_capture_done:
             try:
-                self.on_capture_done(name, label)
+                self.on_capture_done(target, label)
             except Exception:
                 pass
 
@@ -401,6 +484,26 @@ class MacroEngine:
         t = threading.Thread(target=self._play_thread, daemon=True)
         t.start()
 
+    def _play_events(self, events, scale, stop):
+        """Play one pass of an event list. Returns False if interrupted."""
+        start = time.perf_counter()
+        for ev in events:
+            if stop.is_set():
+                return False
+            # When should this event fire, scaled by the interval percentage?
+            target = start + ev["t"] * scale
+            while True:
+                if stop.is_set():
+                    return False
+                remaining = target - time.perf_counter()
+                if remaining <= 0:
+                    break
+                time.sleep(min(remaining, 0.005))
+            if stop.is_set():
+                return False
+            self._dispatch(ev)
+        return True
+
     def _play_thread(self):
         self.playing = True
         self._play_stop.clear()
@@ -409,29 +512,62 @@ class MacroEngine:
         self._log(f"[PLAY] Replaying {len(self.events)} events at "
                   f"{self.cfg['interval_percent']}% interval "
                   f"(speed x{(1/scale) if scale else 0:.2f}).")
-        start = time.perf_counter()
         try:
-            for ev in self.events:
-                if self._play_stop.is_set():
-                    self._log("[PLAY] Stopped by user.")
-                    break
-                # When should this event fire, scaled by the interval percentage?
-                target = start + ev["t"] * scale
-                while True:
-                    if self._play_stop.is_set():
-                        break
-                    remaining = target - time.perf_counter()
-                    if remaining <= 0:
-                        break
-                    time.sleep(min(remaining, 0.005))
-                if self._play_stop.is_set():
-                    break
-                self._dispatch(ev)
-            else:
-                self._log("[PLAY] Done.")
+            done = self._play_events(self.events, scale, self._play_stop)
+            self._log("[PLAY] Done." if done else "[PLAY] Stopped by user.")
         finally:
             # Release any keys/buttons that might still be held down.
             self._release_all()
+            self.playing = False
+            self._notify_state()
+
+    # ----- per-slot trigger playback (with hold-to-repeat) ---------------- #
+    def _trigger_press(self, idx):
+        """A slot's trigger key went down."""
+        if self.recording or self.playing:
+            return
+        if idx in self._held_triggers:
+            return  # ignore OS key auto-repeat; we manage the loop ourselves
+        self._held_triggers.add(idx)
+        if not self.slots[idx]["events"]:
+            self._log(f"[SLOT] '{self.slots[idx]['name']}' is empty.")
+            return
+        stop = threading.Event()
+        self._slot_stops[idx] = stop
+        t = threading.Thread(target=self._slot_play_loop, args=(idx, stop),
+                             daemon=True)
+        self._slot_threads[idx] = t
+        t.start()
+
+    def _trigger_release(self, idx):
+        """A slot's trigger key went up."""
+        self._held_triggers.discard(idx)
+        # Only hold-to-repeat slots stop on release; a one-shot finishes its run.
+        if self.slots[idx]["hold_repeat"]:
+            self.stop_slot(idx)
+
+    def stop_slot(self, idx):
+        st = self._slot_stops.get(idx)
+        if st:
+            st.set()
+
+    def _slot_play_loop(self, idx, stop):
+        slot = self.slots[idx]
+        scale = max(0.0, self.cfg["interval_percent"] / 100.0)
+        repeat = slot["hold_repeat"]
+        self.playing = True
+        self._notify_state()
+        self._log(f"[SLOT] Playing '{slot['name']}'"
+                  + (" (hold to repeat)" if repeat else ""))
+        try:
+            while True:
+                self._play_events(slot["events"], scale, stop)
+                if stop.is_set() or not repeat:
+                    break
+        finally:
+            self._release_all()
+            self._slot_stops.pop(idx, None)
+            self._slot_threads.pop(idx, None)
             self.playing = False
             self._notify_state()
 
@@ -522,6 +658,68 @@ class MacroEngine:
                     pass
         self._log(f"[LOAD] Loaded {len(self.events)} events from {os.path.abspath(path)}")
 
+    # ----- workspace save / load (all slots) ------------------------------ #
+    def save_workspace(self, path):
+        data = {
+            "interval_percent": self.cfg["interval_percent"],
+            "active": self.active,
+            "slots": [
+                {
+                    "name": s["name"],
+                    "events": s["events"],
+                    "trigger": (self.key_display(s["trigger"]).lower()
+                                if s["trigger"] is not None else None),
+                    "hold_repeat": s["hold_repeat"],
+                }
+                for s in self.slots
+            ],
+        }
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f)
+        total = sum(len(s["events"]) for s in self.slots)
+        self._log(f"[SAVE] Wrote {len(self.slots)} slots / {total} events "
+                  f"to {os.path.abspath(path)}")
+
+    def load_workspace(self, path):
+        if not os.path.exists(path):
+            self._log(f"[LOAD] No file at {os.path.abspath(path)}")
+            return
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        # Backwards-compat: a single-recording file has no "slots" key.
+        if "slots" not in data:
+            self.events = data.get("events", [])
+            if "interval_percent" in data:
+                self.cfg["interval_percent"] = data["interval_percent"]
+            self._log("[LOAD] Loaded single recording into active slot.")
+            self._after_workspace_load()
+            return
+        slots = []
+        for s in data["slots"]:
+            slot = self._new_slot(s.get("name", "Macro"))
+            slot["events"] = s.get("events", [])
+            slot["hold_repeat"] = s.get("hold_repeat", True)
+            trig = s.get("trigger")
+            slot["trigger"] = self._parse_hotkey(trig) if trig else None
+            slots.append(slot)
+        if slots:
+            self.slots = slots
+            self.active = max(0, min(data.get("active", 0), len(slots) - 1))
+        if "interval_percent" in data:
+            self.cfg["interval_percent"] = data["interval_percent"]
+        total = sum(len(s["events"]) for s in self.slots)
+        self._log(f"[LOAD] Loaded {len(self.slots)} slots / {total} events "
+                  f"from {os.path.abspath(path)}")
+        self._after_workspace_load()
+
+    def _after_workspace_load(self):
+        if self.on_speed_change:
+            try:
+                self.on_speed_change(self.cfg["interval_percent"])
+            except Exception:
+                pass
+        self._notify_state()
+
     # ----- hotkey dispatch ------------------------------------------------ #
     def _hotkey_handler(self, key):
         if self._same_key(key, self._hotkeys["quit_key"]):
@@ -552,17 +750,27 @@ class MacroEngine:
             on_scroll=self._on_scroll,
         )
 
-        # Keyboard listener: capture-mode rebinding, recording, AND hotkeys.
+        # Keyboard listener: capture-mode rebinding, slot triggers, recording,
+        # AND global hotkeys.
         def on_press(key):
             if self._capture_target is not None:
                 self._handle_capture(key)
                 return True
-            self._on_press(key)
+            idx = self._slot_for_key(key)
+            if idx is not None:
+                self._trigger_press(idx)
+            self._on_press(key)          # trigger keys are control keys, not recorded
             return self._hotkey_handler(key)
+
+        def on_release(key):
+            idx = self._slot_for_key(key)
+            if idx is not None:
+                self._trigger_release(idx)
+            self._on_release(key)
 
         self._kbd_listener = keyboard.Listener(
             on_press=on_press,
-            on_release=self._on_release,
+            on_release=on_release,
         )
 
         self._mouse_listener.start()
@@ -570,6 +778,8 @@ class MacroEngine:
 
     def stop_listeners(self):
         self._play_stop.set()
+        for st in list(self._slot_stops.values()):
+            st.set()
         try:
             self._mouse_listener.stop()
         except Exception:
