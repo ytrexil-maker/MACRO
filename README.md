@@ -51,11 +51,24 @@ pip install -r requirements.txt
 
 ## Run
 
+**GUI (recommended)** — a dark, Razer-Synapse-style control panel:
+
+```bash
+python macro_gui.py
+```
+
+Nothing is pre-set: click any key-cap and press the key you want to bind it
+(record, play, slower, faster, save, load, quit). Big RECORD / PLAY toggles
+light up while active, a speed slider scales playback, and there's a live
+activity log plus Save As / Load buttons.
+
+**Console (no window)** — same engine, hotkey-only:
+
 ```bash
 python fortnite_macro.py
 ```
 
-Leave the console running in the background and tab into Fortnite.
+Leave either one running in the background and tab into Fortnite.
 
 > **Tip (Windows):** Fortnite usually runs as administrator. For the macro to
 > send input into it, run the script from an **administrator** terminal too,

@@ -237,6 +237,30 @@ class MacroEngine:
         self._stop_flag = threading.Event()   # signals app quit
         self._play_stop = threading.Event()    # signals "stop current playback"
 
+        # ----- optional GUI hooks (left as None for headless console use) --- #
+        self.on_status = None        # callback(str) -> append to a log / status line
+        self.on_state_change = None  # callback() -> recording/playing state changed
+        self.on_speed_change = None  # callback(int) -> interval_percent changed
+        self.on_capture_done = None  # callback(binding_name, display_str)
+        self._capture_target = None  # name of the binding currently being rebound
+
+    def _log(self, msg):
+        """Route a user-facing message to the GUI (if attached) and console."""
+        if self.on_status:
+            try:
+                self.on_status(msg)
+            except Exception:
+                pass
+        else:
+            print(msg)
+
+    def _notify_state(self):
+        if self.on_state_change:
+            try:
+                self.on_state_change()
+            except Exception:
+                pass
+
     # ----- hotkey parsing ------------------------------------------------- #
     @staticmethod
     def _parse_hotkey(spec):
@@ -266,6 +290,42 @@ class MacroEngine:
 
     def _is_control_key(self, key):
         return any(self._same_key(key, ck) for ck in self._control_keys)
+
+    @staticmethod
+    def key_display(key):
+        """Human-readable label for a key object (for the GUI)."""
+        if key is None:
+            return "—"
+        if isinstance(key, Key):
+            return key.name.upper()
+        ch = getattr(key, "char", None)
+        if ch:
+            return ch.upper() if ch.isalpha() else ch
+        vk = getattr(key, "vk", None)
+        return f"VK{vk}" if vk is not None else str(key)
+
+    # ----- live rebinding (used by the GUI) ------------------------------- #
+    def begin_capture(self, binding_name):
+        """Arm capture: the next key you press becomes this binding."""
+        self._capture_target = binding_name
+        self._log(f"[BIND] Press a key to set '{binding_name}'...")
+
+    def cancel_capture(self):
+        self._capture_target = None
+
+    def _handle_capture(self, key):
+        name = self._capture_target
+        self._capture_target = None
+        self._hotkeys[name] = key
+        self.cfg[name] = self.key_display(key).lower()
+        self._control_keys = set(self._hotkeys.values())
+        label = self.key_display(key)
+        self._log(f"[BIND] '{name}' set to {label}")
+        if self.on_capture_done:
+            try:
+                self.on_capture_done(name, label)
+            except Exception:
+                pass
 
     # ----- recording ------------------------------------------------------ #
     def _now(self):
@@ -305,18 +365,20 @@ class MacroEngine:
     def start_recording(self):
         if self.recording or self.playing:
             return
-        print("\n[REC] Countdown...")
+        self._log("[REC] Countdown...")
         self.audio.countdown_then_go()
         self.events = []
         self._rec_start = time.perf_counter()
         self.recording = True
-        print("[REC] Recording -- press the record hotkey again to stop.")
+        self._log("[REC] Recording -- press the record hotkey again to stop.")
+        self._notify_state()
 
     def stop_recording(self):
         if not self.recording:
             return
         self.recording = False
-        print(f"[REC] Stopped. Captured {len(self.events)} events.")
+        self._log(f"[REC] Stopped. Captured {len(self.events)} events.")
+        self._notify_state()
         self.audio.say("recording stopped")
 
     def toggle_recording(self):
@@ -331,10 +393,10 @@ class MacroEngine:
             self._play_stop.set()
             return
         if self.recording:
-            print("[PLAY] Cannot play while recording.")
+            self._log("[PLAY] Cannot play while recording.")
             return
         if not self.events:
-            print("[PLAY] Nothing recorded yet.")
+            self._log("[PLAY] Nothing recorded yet.")
             return
         t = threading.Thread(target=self._play_thread, daemon=True)
         t.start()
@@ -342,14 +404,16 @@ class MacroEngine:
     def _play_thread(self):
         self.playing = True
         self._play_stop.clear()
+        self._notify_state()
         scale = max(0.0, self.cfg["interval_percent"] / 100.0)
-        print(f"[PLAY] Replaying {len(self.events)} events at "
-              f"{self.cfg['interval_percent']}% interval (speed x{(1/scale) if scale else 0:.2f}).")
+        self._log(f"[PLAY] Replaying {len(self.events)} events at "
+                  f"{self.cfg['interval_percent']}% interval "
+                  f"(speed x{(1/scale) if scale else 0:.2f}).")
         start = time.perf_counter()
         try:
             for ev in self.events:
                 if self._play_stop.is_set():
-                    print("[PLAY] Stopped by user.")
+                    self._log("[PLAY] Stopped by user.")
                     break
                 # When should this event fire, scaled by the interval percentage?
                 target = start + ev["t"] * scale
@@ -364,11 +428,12 @@ class MacroEngine:
                     break
                 self._dispatch(ev)
             else:
-                print("[PLAY] Done.")
+                self._log("[PLAY] Done.")
         finally:
             # Release any keys/buttons that might still be held down.
             self._release_all()
             self.playing = False
+            self._notify_state()
 
     def _dispatch(self, ev):
         et = ev["type"]
@@ -415,35 +480,52 @@ class MacroEngine:
         new = max(10, min(1000, new))   # clamp to a sane range
         self.cfg["interval_percent"] = new
         speed = (100.0 / new) if new else 0
-        print(f"[SPEED] interval = {new}%  (playback speed x{speed:.2f})")
+        self._log(f"[SPEED] interval = {new}%  (playback speed x{speed:.2f})")
+        if self.on_speed_change:
+            try:
+                self.on_speed_change(new)
+            except Exception:
+                pass
+
+    def set_speed(self, percent):
+        """Set interval percentage directly (used by the GUI slider)."""
+        percent = max(10, min(1000, int(percent)))
+        self.cfg["interval_percent"] = percent
+        speed = (100.0 / percent) if percent else 0
+        self._log(f"[SPEED] interval = {percent}%  (playback speed x{speed:.2f})")
 
     # ----- save / load ---------------------------------------------------- #
-    def save(self):
+    def save(self, path=None):
         if not self.events:
-            print("[SAVE] Nothing to save.")
+            self._log("[SAVE] Nothing to save.")
             return
-        path = self.cfg["macro_file"]
+        path = path or self.cfg["macro_file"]
         data = {"interval_percent": self.cfg["interval_percent"], "events": self.events}
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f)
-        print(f"[SAVE] Wrote {len(self.events)} events to {os.path.abspath(path)}")
+        self._log(f"[SAVE] Wrote {len(self.events)} events to {os.path.abspath(path)}")
 
-    def load(self):
-        path = self.cfg["macro_file"]
+    def load(self, path=None):
+        path = path or self.cfg["macro_file"]
         if not os.path.exists(path):
-            print(f"[LOAD] No file at {os.path.abspath(path)}")
+            self._log(f"[LOAD] No file at {os.path.abspath(path)}")
             return
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         self.events = data.get("events", [])
         if "interval_percent" in data:
             self.cfg["interval_percent"] = data["interval_percent"]
-        print(f"[LOAD] Loaded {len(self.events)} events from {os.path.abspath(path)}")
+            if self.on_speed_change:
+                try:
+                    self.on_speed_change(self.cfg["interval_percent"])
+                except Exception:
+                    pass
+        self._log(f"[LOAD] Loaded {len(self.events)} events from {os.path.abspath(path)}")
 
     # ----- hotkey dispatch ------------------------------------------------ #
     def _hotkey_handler(self, key):
         if self._same_key(key, self._hotkeys["quit_key"]):
-            print("[QUIT] Exiting.")
+            self._log("[QUIT] Exiting.")
             self._stop_flag.set()
             return False  # stops the keyboard listener
         if self._same_key(key, self._hotkeys["record_key"]):
@@ -460,10 +542,9 @@ class MacroEngine:
             self.load()
         return True
 
-    # ----- run ------------------------------------------------------------ #
-    def run(self):
-        self._print_banner()
-
+    # ----- listener lifecycle (shared by console + GUI) ------------------- #
+    def start_listeners(self):
+        """Start the background mouse/keyboard listeners (non-blocking)."""
         # Mouse listener: records movement / clicks / scroll.
         self._mouse_listener = mouse.Listener(
             on_move=self._on_move,
@@ -471,8 +552,11 @@ class MacroEngine:
             on_scroll=self._on_scroll,
         )
 
-        # Keyboard listener: both records keystrokes AND dispatches hotkeys.
+        # Keyboard listener: capture-mode rebinding, recording, AND hotkeys.
         def on_press(key):
+            if self._capture_target is not None:
+                self._handle_capture(key)
+                return True
             self._on_press(key)
             return self._hotkey_handler(key)
 
@@ -484,21 +568,28 @@ class MacroEngine:
         self._mouse_listener.start()
         self._kbd_listener.start()
 
+    def stop_listeners(self):
+        self._play_stop.set()
+        try:
+            self._mouse_listener.stop()
+        except Exception:
+            pass
+        try:
+            self._kbd_listener.stop()
+        except Exception:
+            pass
+
+    # ----- run (console mode) --------------------------------------------- #
+    def run(self):
+        self._print_banner()
+        self.start_listeners()
         try:
             while not self._stop_flag.is_set():
                 time.sleep(0.1)
         except KeyboardInterrupt:
             print("\n[QUIT] Interrupted.")
         finally:
-            self._play_stop.set()
-            try:
-                self._mouse_listener.stop()
-            except Exception:
-                pass
-            try:
-                self._kbd_listener.stop()
-            except Exception:
-                pass
+            self.stop_listeners()
 
     def _print_banner(self):
         c = self.cfg
