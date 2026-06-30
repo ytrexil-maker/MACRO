@@ -1,0 +1,6 @@
+# Core input capture + playback (required)
+pynput>=1.7.6
+
+# Optional: spoken "GO" / "recording stopped" cues.
+# If not installed, the tool falls back to distinctive beeps.
+pyttsx3>=2.90
