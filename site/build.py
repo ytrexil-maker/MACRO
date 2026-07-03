@@ -120,6 +120,7 @@ CSS = r"""
     footer.site .f{max-width:1200px;margin:0 auto;padding:26px 20px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
     footer.site a{color:#9ecbff}
     @media(max-width:560px){h1.headline{font-size:29px}.promo-item,.promo-cup{display:none}}
+    .page{display:none}.page.active{display:block}
 """
 
 EXT = 'target="_blank" rel="noopener noreferrer sponsored"'
@@ -136,19 +137,19 @@ def head(title, desc):
 def promo():
     return (
     '  <div class="promo"><div class="promo-inner">\n'
-    '    <a class="logo" href="index.html"><span class="dot"></span><span class="txt">USA<br>TODAY</span></a>\n'
-    '    <a class="promo-item" href="trump-accounts.html"><div class="bar b-blue"></div><span class="lbl">USA 250</span><br><span class="val">America&rsquo;s birthday &#127874;</span></a>\n'
-    '    <a class="promo-item" href="messi-cape-verde.html"><div class="bar b-red"></div><span class="lbl">SCORES &amp; STATS</span><br><span class="val">World Cup mania &#127758; &#127942;</span></a>\n'
-    '    <a class="promo-item" href="si-swimsuit.html"><div class="bar b-purple"></div><span class="lbl">ON USA TODAY PLAY</span><br><span class="val">Explore Marvel comics</span></a>\n'
+    '    <a class="logo" href="#index"><span class="dot"></span><span class="txt">USA<br>TODAY</span></a>\n'
+    '    <a class="promo-item" href="#trump-accounts"><div class="bar b-blue"></div><span class="lbl">USA 250</span><br><span class="val">America&rsquo;s birthday &#127874;</span></a>\n'
+    '    <a class="promo-item" href="#messi-cape-verde"><div class="bar b-red"></div><span class="lbl">SCORES &amp; STATS</span><br><span class="val">World Cup mania &#127758; &#127942;</span></a>\n'
+    '    <a class="promo-item" href="#si-swimsuit"><div class="bar b-purple"></div><span class="lbl">ON USA TODAY PLAY</span><br><span class="val">Explore Marvel comics</span></a>\n'
     f'    <a class="promo-item" href="https://www.homes.com/" {EXT}><div class="bar b-green"></div><span class="lbl">REAL ESTATE LISTINGS</span><br><span class="val">Check home prices &#127968;</span></a>\n'
-    '    <a class="promo-cup" href="messi-cape-verde.html"><div class="t">Inside the Cup</div><div class="s">Tournament pass</div></a>\n'
+    '    <a class="promo-cup" href="#messi-cape-verde"><div class="t">Inside the Cup</div><div class="s">Tournament pass</div></a>\n'
     '  </div></div>\n')
 
 NAV_ITEMS = [
-    ("U.S.", "index.html"), ("Politics", "supreme-court.html"),
-    ("Sports", "messi-cape-verde.html"), ("Entertainment", "si-swimsuit.html"),
-    ("Life", "drowning-safety.html"), ("Money", "tesla-evs.html"),
-    ("Travel", "who-has-ac.html"), ("Opinion", "trump-accounts.html"),
+    ("U.S.", "#index"), ("Politics", "#supreme-court"),
+    ("Sports", "#messi-cape-verde"), ("Entertainment", "#si-swimsuit"),
+    ("Life", "#drowning-safety"), ("Money", "#tesla-evs"),
+    ("Travel", "#who-has-ac"), ("Opinion", "#trump-accounts"),
     ("Crossword", "https://www.usatoday.com/crossword/"),
 ]
 def nav():
@@ -225,9 +226,7 @@ def nanit():
 def sidebar(current):
     minis = ""
     for s in [S["nancy-guthrie"], S["si-swimsuit"], S["tesla-evs"]]:
-        if s["slug"] == current:
-            continue
-        minis += (f'        <a class="story-mini" href="{s["file"]}">\n'
+        minis += (f'        <a class="story-mini" data-slug="{s["slug"]}" href="#{s["slug"]}">\n'
                   f'          <img src="images/{s["thumb"]}" alt="{s["hero_alt"]}" loading="lazy" />\n'
                   f'          <div><div class="m-ttl">{s["headline"]}</div><div class="m-cat">{s["cat"]}</div></div>\n'
                   f'        </a>\n')
@@ -295,23 +294,20 @@ def banners_footer():
     '  </div></footer>\n</body>\n</html>\n')
 
 # ---------------------------------------------------------------- article + grid
-def grid(current):
-    order = ["supreme-court","who-has-ac","drowning-safety","trump-accounts",
-             "iu-workforce","messi-cape-verde","tesla-evs","si-swimsuit","nancy-guthrie"]
+def grid():
+    order = ["supreme-court","who-has-ac","drowning-safety",
+             "trump-accounts","iu-workforce","messi-cape-verde"]
     cards = ""
-    n = 0
     for slug in order:
-        if slug == current or n >= 6:
-            continue
-        s = S[slug]; n += 1
-        cards += (f'          <div class="card"><a href="{s["file"]}"><img src="images/{s["thumb"]}" alt="{s["hero_alt"]}" loading="lazy" /></a>\n'
+        s = S[slug]
+        cards += (f'          <div class="card" data-slug="{slug}"><a href="#{slug}"><img src="images/{s["thumb"]}" alt="{s["hero_alt"]}" loading="lazy" /></a>\n'
                   f'            <div class="cat">{s["cat"]}</div>\n'
-                  f'            <div class="ttl"><a href="{s["file"]}">{s["headline"]}</a></div></div>\n')
+                  f'            <div class="ttl"><a href="#{slug}">{s["headline"]}</a></div></div>\n')
     return ('      <div class="more-grid"><h3>More from USA TODAY</h3>\n'
             f'        <div class="grid">\n{cards}        </div></div>\n')
 
 def article(s):
-    qs = "".join(f'          <li><a href="#full">{q}</a><span>&rarr;</span></li>\n' for q in s["ai_q"])
+    qs = "".join(f'          <li><a href="#{s["slug"]}">{q}</a><span>&rarr;</span></li>\n' for q in s["ai_q"])
     # body blocks, inject nanit after 2nd paragraph
     out = ""; pcount = 0; injected = False
     for kind, text in s["blocks"]:
@@ -322,20 +318,20 @@ def article(s):
         elif kind == "h2":
             out += f'        <h2>{text}</h2>\n'
         elif kind == "note":
-            out += f'        <p id="full" class="note">{text}</p>\n'
+            out += f'        <p class="note">{text}</p>\n'
     if not injected:  # short article: still show the ad
         out += nanit()
     return (
-    '    <main class="content">\n'
+    f'      <article class="page" id="{s["slug"]}">\n'
     f'      <div class="kicker-row"><span class="kicker">{s["kicker"]}</span>\n'
     f'        <div class="topic"><span class="name">{s["topic"]}</span><button class="add-topic">Add Topic +</button></div></div>\n'
     f'      <h1 class="headline">{s["headline"]}</h1>\n'
     '      <div class="byline"><span class="avatar"><img src="images/author-keith.jpg" alt="Staff" width="46" height="46" style="width:46px;height:46px;object-fit:cover" /></span>\n'
-    f'        <div class="who"><a href="#" class="author">{s["author"]}</a><span class="org">{s["org"]}</span></div></div>\n'
+    f'        <div class="who"><a href="#{s["slug"]}" class="author">{s["author"]}</a><span class="org">{s["org"]}</span></div></div>\n'
     f'      <p class="timestamp">{s["date"]}</p>\n'
     '      <div class="share"><span>f</span><span>X</span><span>&#9993;</span><span>&#10150;</span></div>\n'
     '      <section class="ai"><div class="h"><b>AI Overview</b><i>&#9432;</i></div>\n'
-    f'        <p class="lead">{s["ai_lead"]} <a href="#full" class="full">Full Summary</a></p>\n'
+    f'        <p class="lead">{s["ai_lead"]} <a href="#{s["slug"]}" class="full">Full Summary</a></p>\n'
     f'        <ul>\n{qs}        </ul>\n'
     '        <div class="dd"><span class="bd">DeeperDive<span class="beta">BETA</span></span><span class="ph">Ask USA TODAY anything</span><span class="go">&rarr;</span></div></section>\n'
     f'      <figure><img src="images/{s["hero"]}" alt="{s["hero_alt"]}" loading="lazy" />\n'
@@ -344,13 +340,43 @@ def article(s):
     '      <div class="body">\n'
     f'{out}'
     '      </div>\n'
-    f'{grid(s["slug"])}'
-    '    </main>\n')
+    '      </article>\n')
 
-def page(s):
-    return (head(s["headline"], s["desc"]) + promo() + nav() + lincoln()
-            + '  <div class="wrap">\n' + article(s) + sidebar(s["slug"])
-            + '  </div>\n' + banners_footer())
+ROUTER = """
+<script>
+(function(){
+  var pages = document.querySelectorAll('.page');
+  var ids = {}; pages.forEach(function(p){ ids[p.id]=1; });
+  function show(slug){
+    pages.forEach(function(p){ p.classList.toggle('active', p.id===slug); });
+    document.querySelectorAll('[data-slug]').forEach(function(el){
+      el.style.display = (el.getAttribute('data-slug')===slug) ? 'none' : '';
+    });
+    window.scrollTo(0,0);
+  }
+  function route(){
+    var h = (location.hash||'').replace('#','');
+    if(ids[h]) show(h);
+    else if(!document.querySelector('.page.active')) show('index');
+  }
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+"""
+
+def spa():
+    arts = "".join(article(s) for s in S.values())
+    body = (promo() + nav() + lincoln()
+            + '  <div class="wrap">\n'
+            + '    <main class="content">\n' + arts + grid() + '    </main>\n'
+            + sidebar(None)
+            + '  </div>\n'
+            + banners_footer())
+    doc = (head("USA TODAY", "USA TODAY-style demo: a full, clickable multi-story front recreated for preview.")
+           + body)
+    # move router script just before </body>
+    return doc.replace("</body>", ROUTER + "</body>")
 
 # ---------------------------------------------------------------- content
 def P(t): return ("p", t)
@@ -528,8 +554,26 @@ add(slug="tesla-evs", file="tesla-evs.html", kicker="EVS", topic="Tesla", cat="M
     ])
 
 # ---------------------------------------------------------------- write
-out_dir = pathlib.Path(".")
+import base64, re
+def embed(html):
+    def repl(m):
+        attr, fn = m.group(1), m.group(2)
+        p = pathlib.Path(fn)
+        if not p.exists():
+            return m.group(0)
+        b64 = base64.b64encode(p.read_bytes()).decode()
+        return f'{attr}="data:image/jpeg;base64,{b64}"'
+    return re.sub(r'(src|href)="(images/[^"]+\.jpg)"', repl, html)
+
+doc = spa()
+pathlib.Path("index.html").write_text(embed(doc), encoding="utf-8")
+print("wrote index.html (single-file, embedded,", len(S), "stories)")
+
+# remove the old separate page files so nothing 404s from a lone file
 for slug, s in S.items():
-    (out_dir / s["file"]).write_text(page(s), encoding="utf-8")
-    print("wrote", s["file"])
-print("done:", len(S), "pages")
+    f = pathlib.Path(s["file"])
+    if s["file"] != "index.html" and f.exists():
+        f.unlink(); print("removed", s["file"])
+for extra in ("index-standalone.html",):
+    if pathlib.Path(extra).exists():
+        pathlib.Path(extra).unlink(); print("removed", extra)
