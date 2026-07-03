@@ -107,8 +107,13 @@
 
     /* ---------- sidebar ---------- */
     .rail-sticky{position:sticky;top:64px}
-    .fin-card{border:1px solid var(--line);border-top:none;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fff}
+    .fin-card{border:1px solid var(--line);border-top:none;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fff;text-decoration:none;color:var(--ink)}
     .fin-card:first-of-type{border-top:1px solid var(--line)}
+    .fin-card:hover{background:#fafafa;text-decoration:none}
+    /* clickable ad wrappers */
+    a.ad-link{display:block;cursor:pointer;text-decoration:none}
+    a.ad-link:hover{filter:brightness(1.03)}
+    a.ad-link:hover{text-decoration:none}
     .fin-brand{font-weight:800;font-size:16px}
     .fin-apy{font-size:30px;font-weight:800;line-height:1}
     .fin-apy sup{font-size:13px}
@@ -168,6 +173,7 @@
   <!-- ===================== LINCOLN NAUTILUS HERO AD ===================== -->
   <div class="wrap" style="display:block">
     <div class="ad-label">Advertisement</div>
+    <a class="ad-link" href="https://www.lincoln.com/luxury-suvs/nautilus/" target="_blank" rel="noopener noreferrer sponsored" title="2026 Lincoln Nautilus &mdash; lincoln.com">
     <svg viewBox="0 0 1160 360" width="100%" role="img" aria-label="2026 Lincoln Nautilus ad">
       <rect width="1160" height="360" fill="#eef0ef"/>
       <!-- left copy -->
@@ -193,6 +199,7 @@
       <image href="images/ad-lincoln-suv.jpg" x="600" y="40" width="500" height="280"
              preserveAspectRatio="xMidYMid slice" clip-path="url(#suvclip)"/>
     </svg>
+    </a>
   </div>
 
   <!-- ===================== BODY ===================== -->
@@ -235,6 +242,7 @@
 
       <!-- ESPN MLB.TV in-article ad -->
       <div class="ad-label">Advertisement</div>
+      <a class="ad-link" href="https://plus.espn.com/mlb" target="_blank" rel="noopener noreferrer sponsored" title="ESPN+ MLB.TV">
       <svg viewBox="0 0 720 150" width="100%" role="img" aria-label="ESPN MLB.TV ad">
         <rect width="720" height="150" fill="#0b0b0b"/>
         <!-- ESPN wordmark: red italic slanted mark -->
@@ -255,6 +263,7 @@
         <rect x="560" y="52" width="130" height="40" rx="4" fill="#fff"/>
         <text x="625" y="78" text-anchor="middle" font-family="Arial" font-weight="800" font-size="14" fill="#0b0b0b">SIGN UP NOW</text>
       </svg>
+      </a>
 
       <div class="body">
         <p>HARLAN, Iowa &mdash; A routine evening chore on a family farm in western Iowa ended in tragedy this week when a 68-year-old farmer was <a href="#">fatally attacked by a black bull</a> in his own cattle pen, authorities said.</p>
@@ -267,8 +276,11 @@
 
         <p>The timeline released by deputies is stark in its ordinariness. Thompson went out to tend the herd, as he had countless times before. When he did not come back for the evening meal, his wife went looking &mdash; and found him in the pen with the bull still nearby.</p>
 
+        <p>The bull, an <a href="#">Angus</a>, had no name. Production cattle rarely do &mdash; unlike a family pet, animals raised as livestock are typically tracked by ear tag rather than named, a deliberate distance keepers keep from animals bound for market. It is a detail that underscores the nature of the work: this was not a companion animal, but one of the powerful production animals a farmer like Thompson handled as a matter of routine.</p>
+
         <!-- nanit in-body video ad -->
         <div class="ad-label">Advertisement</div>
+        <a class="ad-link" href="https://www.nanit.com/" target="_blank" rel="noopener noreferrer sponsored" title="Nanit baby monitors">
         <svg viewBox="0 0 720 360" width="100%" role="img" aria-label="nanit baby monitor ad">
           <defs>
             <linearGradient id="ov" x1="0" y1="0" x2="1" y2="0">
@@ -285,6 +297,7 @@
           <text x="52" y="200" font-family="Georgia,serif" font-size="42" fill="#f4f7f9">hovering to us</text>
           <text x="690" y="342" text-anchor="end" font-family="Arial,Helvetica" font-weight="800" font-size="26" fill="#fff">nanit</text>
         </svg>
+        </a>
 
         <p>Authorities have not reported any indication that the bull had shown aggression toward Thompson or others before Monday, and no charges or further action against the animal have been announced. The bull remains secured following the events, the sheriff&rsquo;s office said.</p>
 
@@ -346,7 +359,7 @@
 
         <!-- E*TRADE / Capital One / SoFi / Betterment finance rail -->
         <div class="ad-label">Advertisement</div>
-        <div class="fin-card">
+        <a class="fin-card" href="https://us.etrade.com/" target="_blank" rel="noopener noreferrer sponsored">
           <div>
             <svg viewBox="0 0 150 22" width="120" height="18" aria-label="E*TRADE from Morgan Stanley">
               <text x="0" y="18" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="20" fill="#00874d">E</text>
@@ -354,38 +367,39 @@
               <text x="26" y="18" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="20" fill="#00874d">TRADE</text>
             </svg>
             <div class="fin-sub">from Morgan Stanley &middot; Member FDIC</div><div class="fin-apy">4.10<sup>% APY</sup></div><div class="fin-sub">12-Month Certificate of Deposit</div></div>
-          <button class="fin-btn">GET STARTED</button>
-        </div>
-        <div class="fin-card">
+          <span class="fin-btn">GET STARTED</span>
+        </a>
+        <a class="fin-card" href="https://www.capitalone.com/bank/savings-accounts/online-performance-savings-account/" target="_blank" rel="noopener noreferrer sponsored">
           <div>
             <svg viewBox="0 0 150 24" width="120" height="20" aria-label="Capital One">
               <text x="0" y="19" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="19" fill="#004977">Capital<tspan font-weight="400">One</tspan></text>
               <path d="M2 4 q60 -8 120 4" stroke="#d03027" stroke-width="4" fill="none" stroke-linecap="round"/>
             </svg>
             <div class="fin-apy">3.00<sup>% APY</sup></div><div class="fin-sub">360 Performance Savings &middot; Member FDIC</div></div>
-          <button class="fin-btn">OPEN ACCOUNT</button>
-        </div>
-        <div class="fin-card">
+          <span class="fin-btn">OPEN ACCOUNT</span>
+        </a>
+        <a class="fin-card" href="https://www.sofi.com/banking/" target="_blank" rel="noopener noreferrer sponsored">
           <div>
             <svg viewBox="0 0 90 24" width="72" height="19" aria-label="SoFi">
               <text x="0" y="19" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="20" fill="#00a0c6">SoFi</text>
             </svg>
             <div class="fin-sub">Checking &amp; Savings &middot; Member FDIC</div><div class="fin-apy">3.80<sup>% APY</sup></div><div class="fin-sub">+0.70% boost on new accounts</div></div>
-          <button class="fin-btn">START BANKING</button>
-        </div>
-        <div class="fin-card">
+          <span class="fin-btn">START BANKING</span>
+        </a>
+        <a class="fin-card" href="https://www.betterment.com/cash-reserve" target="_blank" rel="noopener noreferrer sponsored">
           <div>
             <svg viewBox="0 0 150 24" width="120" height="19" aria-label="Betterment">
               <circle cx="8" cy="12" r="7" fill="#0f2b46"/><path d="M4 12 a4 4 0 0 1 8 0z" fill="#f4b23e"/>
               <text x="20" y="18" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="18" fill="#0f2b46">Betterment</text>
             </svg>
             <div class="fin-sub">Cash Reserve &middot; New customer offer</div><div class="fin-apy">4.00<sup>% APY</sup></div></div>
-          <button class="fin-btn">CLAIM OFFER</button>
-        </div>
-        <div class="disc">Sponsors of GOBankingRates &middot; Advertiser Disclosure</div>
+          <span class="fin-btn">CLAIM OFFER</span>
+        </a>
+        <a class="disc" href="https://www.gobankingrates.com/" target="_blank" rel="noopener noreferrer sponsored" style="display:block;text-decoration:none">Sponsors of GOBankingRates &middot; Advertiser Disclosure</a>
 
         <!-- Fiber internet ad -->
         <div class="ad-label" style="margin-top:24px">Advertisement</div>
+        <a class="ad-link" href="https://www.frontier.com/fiber-internet" target="_blank" rel="noopener noreferrer sponsored" title="Frontier Fiber Internet">
         <svg viewBox="0 0 320 300" width="100%" role="img" aria-label="Switch for 300 Mbps Fiber Internet">
           <rect width="320" height="300" fill="#0b57d0"/>
           <text x="24" y="120" font-family="Arial" font-weight="900" font-size="30" fill="#fff">Switch for</text>
@@ -394,13 +408,14 @@
           <rect x="24" y="230" width="150" height="42" rx="21" fill="#fff"/>
           <text x="99" y="257" text-anchor="middle" font-family="Arial" font-weight="800" font-size="15" fill="#0b57d0">Switch today</text>
         </svg>
+        </a>
 
         <!-- Peak Health native ad -->
         <div class="ad-label" style="margin-top:24px">Advertisement</div>
-        <div class="story-mini" style="border-top:none">
+        <a class="story-mini" style="border-top:none;text-decoration:none;color:var(--ink)" href="https://www.webmd.com/erectile-dysfunction/default.htm" target="_blank" rel="noopener noreferrer sponsored">
           <img src="images/s-health.jpg" alt="Fitness" loading="lazy" />
           <div><div class="m-ttl" style="font-size:15px">Why 110,000+ Men Over 40 Are Quietly Throwing Out Their Blue Pills</div><div class="m-cat">Peak Health Reviews | Ad</div></div>
-        </div>
+        </a>
 
         <!-- More Stories with thumbnails -->
         <h3 style="font-family:var(--serif);font-size:22px;margin:26px 0 6px;border-bottom:2px solid var(--brand);padding-bottom:8px">More Stories</h3>
@@ -431,6 +446,7 @@
   <!-- ===================== BOTTOM AMAZON BANNER ===================== -->
   <div class="wrap" style="display:block">
     <div class="ad-label">Advertisement</div>
+    <a class="ad-link" href="https://www.amazon.com/" target="_blank" rel="noopener noreferrer sponsored" title="Amazon">
     <svg viewBox="0 0 1160 120" width="100%" role="img" aria-label="Amazon ad">
       <rect width="1160" height="120" fill="#0f1111"/>
       <text x="40" y="55" font-family="Arial" font-weight="800" font-size="30" fill="#fff">60% of sales on Amazon come</text>
@@ -442,11 +458,13 @@
         <path d="M138 48 l14 -6 -3 15 z" fill="#ff9900"/>
       </g>
     </svg>
+    </a>
   </div>
 
   <!-- ===================== HBO MAX STICKY-STYLE STRIP ===================== -->
   <div class="wrap" style="display:block">
     <div class="ad-label">Advertisement</div>
+    <a class="ad-link" href="https://www.max.com/" target="_blank" rel="noopener noreferrer sponsored" title="HBO Max">
     <svg viewBox="0 0 1160 90" width="100%" role="img" aria-label="HBO Max ad">
       <rect width="1160" height="90" fill="#0a0a0a"/>
       <text x="40" y="40" font-family="Arial" font-weight="800" font-size="16" fill="#bbb" letter-spacing="1">STARTING AT</text>
@@ -454,6 +472,7 @@
       <text x="1000" y="56" text-anchor="end" font-family="Arial" font-weight="900" font-size="26" fill="#fff">HBO <tspan fill="#7a5cff">max</tspan></text>
       <text x="1120" y="56" text-anchor="end" font-family="Arial" font-size="13" fill="#9ecbff">on prime video</text>
     </svg>
+    </a>
   </div>
 
   <footer class="site">
