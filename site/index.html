@@ -6,194 +6,158 @@
   <title>An Iowa farmer went out to his cattle pen and never came back &mdash; USA TODAY</title>
   <meta name="description" content="A 68-year-old Iowa farmer was killed by a black bull in his own cattle pen, the Shelby County Sheriff's Office says." />
   <style>
-    :root {
-      --blue: #0079c2;
-      --ink: #1c1c1c;
-      --gray: #5a5a5a;
-      --line: #e2e2e2;
-      --bg: #ffffff;
-      --band: #f4f4f4;
-      --dark: #222;
-      --serif: Georgia, "Times New Roman", serif;
-      --sans: "Helvetica Neue", Arial, sans-serif;
+    :root{
+      --brand:#009bdf;        /* USA TODAY cyan-blue logo/buttons */
+      --link:#0b6ea8;         /* article body links */
+      --ink:#1a1a1a;
+      --gray:#5a5a5a;
+      --line:#e2e2e2;
+      --nav:#2b2b2b;
+      --band:#f4f4f4;
+      --tileblue:#1f6fd0; --tilered:#e0362c; --tilepurple:#8b3ff2; --tilegreen:#2fa84f;
+      --serif:Georgia,"Times New Roman",serif;
+      --sans:"Helvetica Neue",Arial,sans-serif;
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      font-family: var(--sans);
-      color: var(--ink);
-      background: var(--bg);
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    img { max-width: 100%; display: block; }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family:var(--sans);color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+    a{color:var(--link);text-decoration:none}
+    a:hover{text-decoration:underline}
+    svg{display:block}
 
-    /* ---------- Top promo strip ---------- */
-    .promo {
-      border-bottom: 1px solid var(--line);
-      background: #fff;
-    }
-    .promo-inner {
-      max-width: 1200px; margin: 0 auto; padding: 12px 20px;
-      display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
-    }
-    .promo .brand { font-weight: 800; font-size: 20px; letter-spacing: .5px; line-height: 1.05; }
-    .promo .brand small { display: block; font-size: 20px; }
-    .promo-item { font-size: 13px; line-height: 1.25; }
-    .promo-item .lbl { color: var(--gray); font-weight: 700; font-size: 11px; letter-spacing: .5px; }
-    .promo-item .val { font-weight: 700; font-size: 15px; }
-    .promo-item .bar { height: 3px; border-radius: 2px; margin-bottom: 6px; }
-    .b-blue { background: #1f6fd0; } .b-red { background: #e0362c; }
-    .b-purple { background: #7a3ff2; } .b-green { background: #2fa84f; }
-    .promo-cup { margin-left: auto; text-align: right; }
-    .promo-cup .t { color: var(--blue); font-weight: 800; font-size: 15px; }
-    .promo-cup .s { color: var(--gray); font-size: 12px; }
+    /* ---------- promo strip ---------- */
+    .promo{border-bottom:1px solid var(--line);background:#fff}
+    .promo-inner{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo .dot{width:34px;height:34px;border-radius:50%;background:var(--brand)}
+    .logo .txt{font-weight:800;font-size:20px;line-height:.95;letter-spacing:.5px}
+    .promo-item{font-size:13px;line-height:1.2}
+    .promo-item .lbl{color:var(--gray);font-weight:700;font-size:11px;letter-spacing:.5px}
+    .promo-item .val{font-weight:700;font-size:15px}
+    .promo-item .bar{height:3px;border-radius:2px;margin-bottom:6px}
+    .b-blue{background:var(--tileblue)}.b-red{background:var(--tilered)}.b-purple{background:var(--tilepurple)}.b-green{background:var(--tilegreen)}
+    .promo-cup{margin-left:auto;text-align:right}
+    .promo-cup .t{color:var(--brand);font-weight:800;font-size:15px}
+    .promo-cup .s{color:var(--gray);font-size:12px}
 
-    /* ---------- Nav bar ---------- */
-    nav.main {
-      background: var(--dark); color: #fff; position: sticky; top: 0; z-index: 40;
-    }
-    nav.main .row {
-      max-width: 1200px; margin: 0 auto; padding: 0 20px;
-      display: flex; align-items: center; gap: 22px; height: 48px;
-    }
-    nav.main a { color: #fff; font-weight: 700; font-size: 15px; }
-    nav.main .spacer { flex: 1; }
-    nav.main .pill {
-      background: var(--blue); color: #fff; padding: 7px 16px; border-radius: 4px; font-weight: 800;
-    }
-    nav.main .temp { font-weight: 700; }
-    nav.main .signin { font-weight: 800; }
+    /* ---------- nav ---------- */
+    nav.main{background:var(--nav);color:#fff;position:sticky;top:0;z-index:40}
+    nav.main .row{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:22px;height:48px}
+    nav.main a{color:#fff;font-weight:700;font-size:15px}
+    nav.main .spacer{flex:1}
+    nav.main .temp{font-weight:700}
+    nav.main .pill{background:var(--brand);color:#fff;padding:7px 16px;border-radius:4px;font-weight:800}
+    nav.main .signin{font-weight:800}
 
-    /* ---------- Layout ---------- */
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; gap: 40px; }
-    main.content { flex: 1; min-width: 0; max-width: 720px; padding: 30px 0 60px; }
-    aside.rail { width: 320px; flex: 0 0 320px; padding: 30px 0 60px; }
-    @media (max-width: 980px) {
-      .wrap { flex-direction: column; }
-      aside.rail { width: 100%; flex: none; }
-    }
+    /* ---------- layout ---------- */
+    .wrap{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;gap:40px}
+    main.content{flex:1;min-width:0;max-width:720px;padding:26px 0 50px}
+    aside.rail{width:320px;flex:0 0 320px;padding:26px 0 50px}
+    @media(max-width:980px){.wrap{flex-direction:column}aside.rail{width:100%;flex:none}}
 
-    /* ---------- Ad blocks ---------- */
-    .ad-label { text-align: center; color: #999; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin: 10px 0 6px; }
-    .ad { position: relative; border: 1px solid var(--line); background: var(--band); }
-    .ad .tag {
-      position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,.55); color: #fff;
-      font-size: 10px; padding: 1px 6px; border-radius: 3px; z-index: 2;
-    }
-    /* Amazon leaderboard */
-    .ad-amazon {
-      background: #0f1111; color: #fff; padding: 22px 26px; display: flex; align-items: center;
-      justify-content: space-between; gap: 20px; border: none; border-radius: 4px;
-    }
-    .ad-amazon .copy { font-size: 26px; font-weight: 800; line-height: 1.1; }
-    .ad-amazon .copy .hl { color: #ff9900; }
-    .ad-amazon .logo { font-size: 22px; font-weight: 800; }
-    .ad-amazon .logo .hl { color: #ff9900; }
-    .ad-amazon small { display:block; color:#bbb; font-weight:400; font-size:11px; margin-top:4px; }
-    /* Video ad */
-    .ad-video {
-      background: linear-gradient(135deg,#33424e,#1c2730); color:#fff; min-height: 300px;
-      display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding: 24px;
-    }
-    .ad-video .play { width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px; }
-    .ad-video h4 { font-family: var(--serif); font-size: 26px; margin: 0; font-weight: 400; }
+    .ad-label{text-align:center;color:#9a9a9a;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:14px 0 6px}
 
-    /* Sidebar finance cards */
-    .fin-card { border:1px solid var(--line); border-top:none; padding: 16px; display:flex; justify-content:space-between; align-items:center; gap:14px; background:#fff; }
-    .fin-card:first-of-type { border-top:1px solid var(--line); }
-    .fin-brand { font-weight:800; font-size:16px; }
-    .fin-apy { font-size:30px; font-weight:800; line-height:1; }
-    .fin-apy sup { font-size:13px; vertical-align: super; }
-    .fin-sub { font-size:12px; color:var(--gray); }
-    .fin-btn { background: var(--blue); color:#fff; border:none; border-radius:20px; padding:9px 16px; font-weight:800; font-size:13px; cursor:pointer; white-space:nowrap; }
-    .fin-right { text-align:right; }
-    .fin-right ul { margin:4px 0 0; padding-left:16px; font-size:12px; color:var(--gray); }
-    .rail-sticky { position: sticky; top: 64px; }
+    /* ---------- article ---------- */
+    .kicker-row{display:flex;justify-content:space-between;align-items:center;margin:8px 0 14px;flex-wrap:wrap;gap:10px}
+    .kicker{color:var(--brand);font-weight:800;font-size:12px;letter-spacing:1px}
+    .topic{display:flex;align-items:center;gap:12px}
+    .topic .name{font-weight:700;font-size:14px}
+    .add-topic{background:var(--brand);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-weight:700;font-size:13px;cursor:pointer}
+    h1.headline{font-family:var(--serif);font-size:40px;line-height:1.12;font-weight:700;margin:6px 0 22px}
+    .byline{display:flex;align-items:center;gap:12px}
+    .avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex:0 0 auto;background:#c9d3da}
+    .byline .who{display:flex;flex-direction:column;line-height:1.3}
+    .author{color:var(--ink);font-weight:700}
+    .org{font-family:var(--serif);font-style:italic;color:var(--gray);font-size:14px}
+    .timestamp{color:var(--gray);font-size:14px;margin:12px 0 14px}
+    .share{display:flex;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .share span{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--gray);font-weight:700;font-size:14px}
 
-    /* ---------- Article ---------- */
-    .kicker-row { display:flex; justify-content:space-between; align-items:center; margin: 8px 0 14px; flex-wrap:wrap; gap:10px; }
-    .kicker { color: var(--blue); font-weight:800; font-size:12px; letter-spacing:1px; }
-    .topic { display:flex; align-items:center; gap:12px; }
-    .topic .name { font-weight:700; font-size:14px; }
-    .add-topic { background: var(--blue); color:#fff; border:none; border-radius:20px; padding:6px 14px; font-weight:700; font-size:13px; cursor:pointer; }
-    h1.headline { font-family: var(--serif); font-size: 40px; line-height: 1.12; font-weight:700; margin: 6px 0 22px; }
-    .byline { display:flex; align-items:center; gap:12px; }
-    .avatar { width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#cfd8dc,#90a4ae);flex:0 0 auto; }
-    .byline .who { display:flex; flex-direction:column; line-height:1.3; }
-    .author { color: var(--ink); font-weight:700; }
-    .org { font-family: var(--serif); font-style:italic; color:var(--gray); font-size:14px; }
-    .timestamp { color: var(--gray); font-size:14px; margin: 12px 0 14px; }
-    .share { display:flex; gap:10px; padding-bottom:20px; border-bottom:1px solid var(--line); }
-    .share span { width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--gray);font-weight:700;font-size:14px; }
+    figure{margin:24px 0}
+    figure svg,figure img{width:100%;border-radius:2px}
+    figcaption{color:var(--gray);font-size:13px;margin-top:8px;line-height:1.4}
 
-    .ai { margin: 24px 0; padding: 20px; border-radius:12px; border:1px solid var(--line);
-          background: linear-gradient(180deg, rgba(0,121,194,.06), rgba(0,121,194,.02)); }
-    .ai .h { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
-    .ai .h b { font-size:16px; } .ai .h i { color:var(--gray); font-style:normal; }
-    .ai .lead { font-family: var(--serif); font-size:17px; margin:0 0 14px; }
-    .ai .lead .full { color: var(--ink); font-weight:700; white-space:nowrap; }
-    .ai ul { list-style:none; margin:0 0 16px; padding:0; }
-    .ai li { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 4px; border-top:1px solid var(--line); }
-    .ai li a { color: var(--ink); font-weight:500; }
-    .ai .dd { display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--line); border-radius:30px; background: rgba(127,127,127,.06); }
-    .ai .dd .bd { font-weight:800; }
-    .ai .dd .beta { font-size:10px; font-weight:700; border:1px solid var(--gray); border-radius:10px; padding:1px 6px; color:var(--gray); margin-left:6px; }
-    .ai .dd .ph { color:var(--gray); flex:1; border-left:1px solid var(--line); padding-left:12px; }
-    .ai .dd .go { width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto; }
+    .ai{margin:24px 0;padding:20px;border-radius:12px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(0,155,223,.07),rgba(0,155,223,.02))}
+    .ai .h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .ai .h b{font-size:16px}.ai .h i{color:var(--gray);font-style:normal}
+    .ai .lead{font-family:var(--serif);font-size:17px;margin:0 0 14px}
+    .ai .lead .full{color:var(--ink);font-weight:700;white-space:nowrap}
+    .ai ul{list-style:none;margin:0 0 16px;padding:0}
+    .ai li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 4px;border-top:1px solid var(--line)}
+    .ai li a{color:var(--ink);font-weight:500}
+    .ai .dd{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:30px;background:rgba(127,127,127,.06)}
+    .ai .dd .bd{font-weight:800}
+    .ai .dd .beta{font-size:10px;font-weight:700;border:1px solid var(--gray);border-radius:10px;padding:1px 6px;color:var(--gray);margin-left:6px}
+    .ai .dd .ph{color:var(--gray);flex:1;border-left:1px solid var(--line);padding-left:12px}
+    .ai .dd .go{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
 
-    .body { font-family: var(--serif); font-size: 19px; line-height: 1.7; }
-    .body p { margin: 0 0 20px; }
-    .body h2 { font-family: var(--serif); font-size: 25px; font-weight:700; margin: 30px 0 16px; }
-    .body .note { color: var(--gray); font-style: italic; }
+    .body{font-family:var(--serif);font-size:19px;line-height:1.7}
+    .body p{margin:0 0 20px}
+    .body h2{font-family:var(--serif);font-size:25px;font-weight:700;margin:30px 0 16px}
+    .body .note{color:var(--gray);font-style:italic}
 
-    footer.site { background: var(--dark); color:#ccc; margin-top: 40px; }
-    footer.site .f { max-width:1200px; margin:0 auto; padding: 30px 20px; font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
-    footer.site a { color:#9ecbff; }
+    /* ---------- "More from USA TODAY" thumbnail grid ---------- */
+    .more-grid h3{font-family:var(--serif);font-size:24px;margin:36px 0 16px;border-bottom:2px solid var(--brand);padding-bottom:8px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}}
+    .card svg,.card img{width:100%;border-radius:2px}
+    .card .cat{color:var(--brand);font-weight:800;font-size:11px;letter-spacing:.5px;margin:8px 0 4px}
+    .card .ttl{font-family:var(--serif);font-size:18px;font-weight:700;line-height:1.25}
+    .card .ttl a{color:var(--ink)}
 
-    @media (max-width: 560px) {
-      h1.headline { font-size: 30px; }
-      .ad-amazon .copy { font-size: 19px; }
-      .promo-item, .promo-cup { display:none; }
+    /* ---------- sidebar ---------- */
+    .rail-sticky{position:sticky;top:64px}
+    .fin-card{border:1px solid var(--line);border-top:none;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fff}
+    .fin-card:first-of-type{border-top:1px solid var(--line)}
+    .fin-brand{font-weight:800;font-size:16px}
+    .fin-apy{font-size:30px;font-weight:800;line-height:1}
+    .fin-apy sup{font-size:13px}
+    .fin-sub{font-size:12px;color:var(--gray)}
+    .fin-btn{background:var(--brand);color:#fff;border:none;border-radius:20px;padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap}
+    .disc{text-align:center;color:var(--gray);font-size:11px;margin-top:8px}
+
+    .story-mini{display:flex;gap:12px;padding:14px 0;border-top:1px solid var(--line);align-items:center}
+    .story-mini svg,.story-mini img{width:96px;height:64px;flex:0 0 auto;border-radius:2px;object-fit:cover}
+    .story-mini .m-ttl{font-family:var(--serif);font-weight:700;font-size:16px;line-height:1.25}
+    .story-mini .m-cat{color:var(--gray);font-size:11px;font-weight:700;letter-spacing:.5px;margin-top:4px}
+
+    .games-box{background:#242424;color:#fff;padding:20px;margin-top:24px}
+    .games-box h4{margin:0 0 8px;font-size:20px}
+    .games-box p{margin:0 0 12px;font-size:14px;color:#cfcfcf}
+    .games-box .inp{display:flex;border:1px solid #555;background:#333}
+    .games-box .inp input{flex:1;background:transparent;border:none;color:#fff;padding:10px 12px;font-size:13px}
+    .games-box .inp button{background:#555;color:#fff;border:none;padding:0 14px;font-weight:800}
+
+    /* ---------- footer ---------- */
+    footer.site{background:var(--nav);color:#ccc;margin-top:30px}
+    footer.site .f{max-width:1200px;margin:0 auto;padding:26px 20px;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+    footer.site a{color:#9ecbff}
+
+    @media(max-width:560px){
+      h1.headline{font-size:29px}
+      .promo-item,.promo-cup{display:none}
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== Top promo strip ===== -->
+  <!-- ===================== PROMO STRIP ===================== -->
   <div class="promo">
     <div class="promo-inner">
-      <div class="brand">USA<br><small>TODAY</small></div>
-      <div class="promo-item">
-        <div class="bar b-blue"></div>
-        <span class="lbl">USA 250</span><br><span class="val">America&rsquo;s birthday &#127874;</span>
-      </div>
-      <div class="promo-item">
-        <div class="bar b-red"></div>
-        <span class="lbl">SCORES &amp; STATS</span><br><span class="val">World Cup mania &#127758; &#127942;</span>
-      </div>
-      <div class="promo-item">
-        <div class="bar b-purple"></div>
-        <span class="lbl">ON USA TODAY PLAY</span><br><span class="val">Explore Marvel comics</span>
-      </div>
-      <div class="promo-item">
-        <div class="bar b-green"></div>
-        <span class="lbl">REAL ESTATE LISTINGS</span><br><span class="val">Check home prices &#127968;</span>
-      </div>
-      <div class="promo-cup">
-        <div class="t">Inside the Cup</div>
-        <div class="s">Tournament pass</div>
-      </div>
+      <div class="logo"><span class="dot"></span><span class="txt">USA<br>TODAY</span></div>
+      <div class="promo-item"><div class="bar b-blue"></div><span class="lbl">USA 250</span><br><span class="val">America&rsquo;s birthday &#127874;</span></div>
+      <div class="promo-item"><div class="bar b-red"></div><span class="lbl">SCORES &amp; STATS</span><br><span class="val">World Cup mania &#127758; &#127942;</span></div>
+      <div class="promo-item"><div class="bar b-purple"></div><span class="lbl">ON USA TODAY PLAY</span><br><span class="val">Explore Marvel comics</span></div>
+      <div class="promo-item"><div class="bar b-green"></div><span class="lbl">REAL ESTATE LISTINGS</span><br><span class="val">Check home prices &#127968;</span></div>
+      <div class="promo-cup"><div class="t">Inside the Cup</div><div class="s">Tournament pass</div></div>
     </div>
   </div>
 
-  <!-- ===== Nav bar ===== -->
+  <!-- ===================== NAV ===================== -->
   <nav class="main">
     <div class="row">
-      <a href="#">U.S.</a><a href="#">Politics</a><a href="#">Sports</a>
-      <a href="#">Entertainment</a><a href="#">Life</a><a href="#">Money</a>
-      <a href="#">Travel</a><a href="#">Opinion</a><a href="#">Crossword</a>
+      <a href="#">U.S.</a><a href="#">Politics</a><a href="#">Sports</a><a href="#">Entertainment</a>
+      <a href="#">Life</a><a href="#">Money</a><a href="#">Travel</a><a href="#">Opinion</a><a href="#">Crossword</a>
       <span class="spacer"></span>
       <span class="temp">82&deg;F &#9728;</span>
       <span class="pill">Subscribe</span>
@@ -201,16 +165,45 @@
     </div>
   </nav>
 
-  <!-- ===== Top leaderboard ad ===== -->
-  <div class="wrap" style="display:block;">
+  <!-- ===================== LINCOLN NAUTILUS HERO AD ===================== -->
+  <div class="wrap" style="display:block">
     <div class="ad-label">Advertisement</div>
-    <div class="ad-amazon">
-      <div class="copy">Businesses in small towns grew more<br>than 30% selling on Amazon. <span class="hl">That&rsquo;s big.</span></div>
-      <div class="logo">amaz<span class="hl">on</span><small>2024 Small Business Empowerment Report</small></div>
-    </div>
+    <svg viewBox="0 0 1160 360" width="100%" role="img" aria-label="2026 Lincoln Nautilus ad">
+      <rect width="1160" height="360" fill="#eef0ef"/>
+      <!-- left copy -->
+      <g font-family="Georgia,serif" fill="#2b3a3d">
+        <line x1="60" y1="96" x2="150" y2="96" stroke="#2b3a3d" stroke-width="2"/>
+        <line x1="470" y1="96" x2="560" y2="96" stroke="#2b3a3d" stroke-width="2"/>
+        <text x="175" y="102" font-size="24" letter-spacing="3" font-weight="bold">2026 LINCOLN NAUTILUS</text>
+        <text x="60" y="185" font-size="46" font-weight="bold">Stylish, Inside and Out</text>
+      </g>
+      <text x="60" y="230" font-family="Helvetica,Arial" font-size="18" fill="#3a4a4d">Design cues, both subtle and grand, combine</text>
+      <text x="60" y="256" font-family="Helvetica,Arial" font-size="18" fill="#3a4a4d">for a centered expression of style and motion.</text>
+      <!-- Sanderson Lincoln bar -->
+      <rect x="60" y="290" width="480" height="46" fill="#2f3b40"/>
+      <rect x="80" y="300" width="2" height="26" fill="#fff"/>
+      <ellipse cx="98" cy="313" rx="12" ry="7" fill="none" stroke="#fff" stroke-width="1.4"/>
+      <line x1="118" y1="300" x2="118" y2="326" stroke="#fff" stroke-width="1"/>
+      <text x="132" y="319" font-family="Georgia,serif" font-size="16" letter-spacing="3" fill="#fff">SANDERSON LINCOLN</text>
+      <!-- right: SUV on road -->
+      <rect x="600" y="40" width="500" height="280" rx="4" fill="#cdd6cf"/>
+      <rect x="600" y="230" width="500" height="90" fill="#c3a98a"/>
+      <!-- trees -->
+      <circle cx="700" cy="120" r="55" fill="#8ba888" opacity=".7"/>
+      <circle cx="980" cy="110" r="65" fill="#7f9d7c" opacity=".7"/>
+      <!-- SUV body -->
+      <g>
+        <path d="M660 250 q10 -60 70 -68 l150 -6 q60 2 95 40 l70 6 q40 6 40 30 l0 22 -25 0 a24 24 0 0 0 -48 0 l-250 0 a24 24 0 0 0 -48 0 l-30 0 q-6 -40 -1 -76z" fill="#8fa6bd"/>
+        <path d="M735 195 l135 -3 q42 2 66 30 l-267 0 q16 -25 66 -27z" fill="#dfe7ee" opacity=".85"/>
+        <circle cx="726" cy="272" r="26" fill="#20262c"/><circle cx="726" cy="272" r="12" fill="#8b949c"/>
+        <circle cx="1004" cy="272" r="26" fill="#20262c"/><circle cx="1004" cy="272" r="12" fill="#8b949c"/>
+      </g>
+      <!-- inset thumbs -->
+      <rect x="600" y="40" width="0" height="0"/>
+    </svg>
   </div>
 
-  <!-- ===== Body: article + rail ===== -->
+  <!-- ===================== BODY ===================== -->
   <div class="wrap">
     <main class="content">
 
@@ -222,7 +215,9 @@
       <h1 class="headline">An Iowa farmer went out to his cattle pen and never came back. A black bull is to blame, the sheriff says</h1>
 
       <div class="byline">
-        <span class="avatar"></span>
+        <span class="avatar">
+          <svg viewBox="0 0 46 46" width="46" height="46"><rect width="46" height="46" fill="#5b7488"/><circle cx="23" cy="18" r="9" fill="#d9e2e8"/><path d="M6 46c0-11 8-16 17-16s17 5 17 16z" fill="#d9e2e8"/></svg>
+        </span>
         <div class="who"><a href="#" class="author">Keith Laing</a><span class="org">USA TODAY</span></div>
       </div>
       <p class="timestamp">July 3, 2026, 9:14 a.m. ET</p>
@@ -240,13 +235,53 @@
         <div class="dd"><span class="bd">DeeperDive<span class="beta">BETA</span></span><span class="ph">Ask USA TODAY anything</span><span class="go">&rarr;</span></div>
       </section>
 
-      <!-- In-article ad -->
+      <!-- lead photo -->
+      <figure>
+        <svg viewBox="0 0 720 420" role="img" aria-label="Cattle pen at dusk on an Iowa farm">
+          <rect width="720" height="420" fill="#cfd9df"/>
+          <rect y="250" width="720" height="170" fill="#8a9a5b"/>
+          <rect y="250" width="720" height="24" fill="#9caa6a"/>
+          <!-- barn -->
+          <rect x="70" y="150" width="180" height="110" fill="#8f3b32"/>
+          <polygon points="60,150 160,100 260,150" fill="#6f2c25"/>
+          <rect x="145" y="200" width="34" height="60" fill="#5c241e"/>
+          <!-- silo -->
+          <rect x="270" y="130" width="46" height="130" fill="#c7ccc9"/>
+          <ellipse cx="293" cy="130" rx="23" ry="12" fill="#aeb4b0"/>
+          <!-- fence -->
+          <g stroke="#6b5842" stroke-width="6">
+            <line x1="0" y1="300" x2="720" y2="300"/><line x1="0" y1="330" x2="720" y2="330"/>
+            <line x1="60" y1="285" x2="60" y2="360"/><line x1="200" y1="285" x2="200" y2="360"/>
+            <line x1="340" y1="285" x2="340" y2="360"/><line x1="480" y1="285" x2="480" y2="360"/>
+            <line x1="620" y1="285" x2="620" y2="360"/>
+          </g>
+          <!-- black bull -->
+          <g fill="#1c1c1c">
+            <ellipse cx="500" cy="330" rx="90" ry="46"/>
+            <rect x="560" y="300" width="60" height="42" rx="14"/>
+            <path d="M612 300 q14 -12 4 -22 M612 306 q18 -6 14 -18" stroke="#1c1c1c" stroke-width="5" fill="none"/>
+            <rect x="430" y="360" width="12" height="46"/><rect x="470" y="360" width="12" height="46"/>
+            <rect x="540" y="360" width="12" height="46"/><rect x="575" y="360" width="12" height="46"/>
+          </g>
+          <!-- sky sun -->
+          <circle cx="620" cy="90" r="40" fill="#f2d9a0" opacity=".8"/>
+        </svg>
+        <figcaption>A black bull in a herd on a family cattle operation. Authorities say the animal fatally attacked a 68-year-old farmer near Harlan, Iowa. <span style="font-style:italic">Illustration / USA TODAY</span></figcaption>
+      </figure>
+
+      <!-- ESPN MLB.TV in-article ad -->
       <div class="ad-label">Advertisement</div>
-      <div class="ad ad-video">
-        <span class="tag">Ad</span>
-        <div class="play">&#9658;</div>
-        <h4>Switch for 300 Mbps Fiber Internet</h4>
-      </div>
+      <svg viewBox="0 0 720 150" width="100%" role="img" aria-label="ESPN MLB.TV ad">
+        <rect width="720" height="150" fill="#0b0b0b"/>
+        <rect x="24" y="30" width="120" height="42" rx="4" fill="#e0271c"/>
+        <text x="84" y="60" text-anchor="middle" font-family="Arial" font-weight="900" font-size="26" font-style="italic" fill="#fff">ESPN</text>
+        <text x="24" y="112" font-family="Arial" font-weight="900" font-size="20" fill="#fff">MLB.TV</text>
+        <text x="170" y="52" font-family="Arial" font-weight="900" font-size="26" fill="#e0271c">ESPN IS THE HOME OF MLB.TV</text>
+        <text x="170" y="82" font-family="Arial" font-size="15" fill="#e8e8e8">Upgrade to an ESPN Unlimited Plan to add MLB.TV and</text>
+        <text x="170" y="104" font-family="Arial" font-size="15" fill="#e8e8e8">stream all out-of-market games, live or on demand.</text>
+        <rect x="560" y="52" width="130" height="40" rx="4" fill="#fff"/>
+        <text x="625" y="78" text-anchor="middle" font-family="Arial" font-weight="800" font-size="14" fill="#0b0b0b">SIGN UP NOW</text>
+      </svg>
 
       <div class="body">
         <p>HARLAN, Iowa &mdash; A routine evening chore on a family farm in western Iowa ended in tragedy this week when a 68-year-old farmer was <a href="#">fatally attacked by a black bull</a> in his own cattle pen, authorities said.</p>
@@ -259,6 +294,22 @@
 
         <p>The timeline released by deputies is stark in its ordinariness. Thompson went out to tend the herd, as he had countless times before. When he did not come back for the evening meal, his wife went looking &mdash; and found him in the pen with the bull still nearby.</p>
 
+        <!-- nanit in-body video ad -->
+        <div class="ad-label">Advertisement</div>
+        <svg viewBox="0 0 720 360" width="100%" role="img" aria-label="nanit baby monitor ad">
+          <rect width="720" height="360" fill="#33424e"/>
+          <rect width="720" height="360" fill="url(#g)"/>
+          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d4d5a"/><stop offset="1" stop-color="#1b2830"/></linearGradient></defs>
+          <rect x="16" y="14" width="42" height="22" rx="3" fill="rgba(0,0,0,.5)"/>
+          <text x="37" y="30" text-anchor="middle" font-family="Arial" font-size="12" fill="#fff">Ad</text>
+          <!-- baby crib blanket -->
+          <ellipse cx="360" cy="300" rx="360" ry="90" fill="#4a5a66"/>
+          <circle cx="360" cy="250" r="34" fill="#e6c9b0"/>
+          <text x="60" y="150" font-family="Georgia,serif" font-size="42" fill="#eef2f4">You can leave the</text>
+          <text x="60" y="200" font-family="Georgia,serif" font-size="42" fill="#eef2f4">hovering to us</text>
+          <text x="620" y="345" text-anchor="end" font-family="Arial" font-weight="800" font-size="24" fill="#fff">nanit</text>
+        </svg>
+
         <p>Authorities have not reported any indication that the bull had shown aggression toward Thompson or others before Monday, and no charges or further action against the animal have been announced. The bull remains secured following the events, the sheriff&rsquo;s office said.</p>
 
         <h2>A hidden hazard on America&rsquo;s farms</h2>
@@ -269,73 +320,177 @@
 
         <p id="full" class="note">The Shelby County Sheriff&rsquo;s Office confirmed the black bull as the animal involved and said the investigation into the circumstances of Thompson&rsquo;s death is continuing. This is a developing story.</p>
       </div>
+
+      <!-- More from USA TODAY: thumbnail grid recreated from the homepage -->
+      <div class="more-grid">
+        <h3>More from USA TODAY</h3>
+        <div class="grid">
+          <div class="card">
+            <svg viewBox="0 0 340 200" role="img" aria-label="Supreme Court">
+              <rect width="340" height="200" fill="#d7d2c4"/><rect y="150" width="340" height="50" fill="#3b3b3b"/>
+              <g fill="#2c2c2c"><rect x="30" y="70" width="30" height="90"/><rect x="80" y="70" width="30" height="90"/><rect x="130" y="70" width="30" height="90"/><rect x="180" y="70" width="30" height="90"/><rect x="230" y="70" width="30" height="90"/><rect x="280" y="70" width="30" height="90"/></g>
+              <polygon points="15,70 170,30 325,70" fill="#c9c3b3"/>
+            </svg>
+            <div class="cat">POLITICS</div>
+            <div class="ttl"><a href="#">In a polarized Supreme Court, even its conservatives are divided on Trump</a></div>
+          </div>
+
+          <div class="card">
+            <svg viewBox="0 0 340 200" role="img" aria-label="US heat map">
+              <rect width="340" height="200" fill="#fff"/>
+              <g fill="#e0271c" opacity=".85"><path d="M60 60 q60 -20 120 10 q60 30 100 10 l10 40 q-40 40 -110 40 q-90 10 -130 -30 q-20 -40 10 -70z"/></g>
+              <g fill="#f7b1a6"><path d="M40 70 q40 -10 70 6 l-6 60 q-50 6 -70 -20z"/></g>
+              <g fill="#a81409"><circle cx="150" cy="110" r="14"/><circle cx="220" cy="95" r="12"/><circle cx="120" cy="130" r="10"/></g>
+            </svg>
+            <div class="cat">WEATHER</div>
+            <div class="ttl"><a href="#">Who doesn&rsquo;t have AC? Maps show the places that use it least</a></div>
+          </div>
+
+          <div class="card">
+            <svg viewBox="0 0 340 200" role="img" aria-label="Child in life jacket on a boat">
+              <rect width="340" height="200" fill="#5fa8d3"/><rect y="120" width="340" height="80" fill="#2f6f9e"/>
+              <rect x="0" y="150" width="340" height="50" fill="#6b5842"/>
+              <circle cx="170" cy="90" r="34" fill="#f0c9a8"/>
+              <rect x="140" y="110" width="60" height="60" rx="10" fill="#e8621f"/>
+              <rect x="150" y="55" width="40" height="22" rx="6" fill="#1c3f6e"/>
+            </svg>
+            <div class="cat">HEALTH AND WELLNESS</div>
+            <div class="ttl"><a href="#">Their 6-year-old son drowned. Here&rsquo;s what they want families to know</a></div>
+          </div>
+
+          <div class="card">
+            <svg viewBox="0 0 340 200" role="img" aria-label="Baby with US flag">
+              <rect width="340" height="200" fill="#e9eef2"/>
+              <circle cx="140" cy="100" r="46" fill="#f0c9a8"/>
+              <path d="M96 150 q44 -30 88 0 l0 50 -88 0z" fill="#2f4f7a"/>
+              <g><rect x="210" y="60" width="90" height="60" fill="#b22234"/><rect x="210" y="60" width="40" height="30" fill="#3c3b6e"/>
+                 <g fill="#fff"><rect x="210" y="70" width="90" height="6"/><rect x="210" y="86" width="90" height="6"/><rect x="210" y="102" width="90" height="6"/></g></g>
+            </svg>
+            <div class="cat">PERSONAL FINANCE</div>
+            <div class="ttl"><a href="#">Millions of babies getting $1K on July 4 with a Trump Account</a></div>
+          </div>
+
+          <div class="card">
+            <svg viewBox="0 0 340 200" role="img" aria-label="School students in a hallway">
+              <rect width="340" height="200" fill="#e7dfc9"/><rect y="150" width="340" height="50" fill="#c8b58a"/>
+              <rect x="20" y="40" width="50" height="110" fill="#b98"/><rect x="270" y="40" width="50" height="110" fill="#b98"/>
+              <circle cx="150" cy="80" r="22" fill="#e8c39c"/><rect x="128" y="100" width="44" height="60" rx="8" fill="#3b6ea5"/>
+              <circle cx="210" cy="82" r="20" fill="#d9a97a"/><rect x="190" y="100" width="40" height="56" rx="8" fill="#a33"/>
+            </svg>
+            <div class="cat">EDUCATION</div>
+            <div class="ttl"><a href="#">Indiana&rsquo;s workforce starts at IU campuses</a></div>
+          </div>
+
+          <div class="card">
+            <svg viewBox="0 0 340 200" role="img" aria-label="World Cup soccer">
+              <rect width="340" height="200" fill="#3f8f4f"/>
+              <g stroke="#4fa85f" stroke-width="4"><line x1="170" y1="0" x2="170" y2="200"/><circle cx="170" cy="100" r="36" fill="none"/></g>
+              <circle cx="120" cy="120" r="16" fill="#fff"/><polygon points="120,108 128,116 124,128 116,128 112,116" fill="#111"/>
+              <rect x="200" y="70" width="34" height="70" rx="8" fill="#6aa9d8"/>
+              <circle cx="217" cy="58" r="14" fill="#d9a97a"/>
+            </svg>
+            <div class="cat">WORLD CUP</div>
+            <div class="ttl"><a href="#">Lionel Messi faces underdog Cape Verde in a win-or-go-home contest</a></div>
+          </div>
+        </div>
+      </div>
     </main>
 
-    <!-- ===== Sidebar rail with inline ads ===== -->
+    <!-- ===================== SIDEBAR RAIL ===================== -->
     <aside class="rail">
       <div class="rail-sticky">
-        <div class="ad-label">Advertisement</div>
 
+        <!-- E*TRADE / Capital One / SoFi / Betterment finance rail -->
+        <div class="ad-label">Advertisement</div>
         <div class="fin-card">
-          <div>
-            <div class="fin-brand">E&#42;TRADE</div>
-            <div class="fin-sub">Member FDIC</div>
-            <div class="fin-apy">4.10<sup>% APY</sup></div>
-          </div>
+          <div><div class="fin-brand">E&#42;TRADE</div><div class="fin-sub">from Morgan Stanley &middot; Member FDIC</div><div class="fin-apy">4.10<sup>% APY</sup></div><div class="fin-sub">12-Month Certificate of Deposit</div></div>
           <button class="fin-btn">GET STARTED</button>
         </div>
-
         <div class="fin-card">
-          <div>
-            <div class="fin-brand">Capital One</div>
-            <div class="fin-apy">3.00<sup>% APY</sup></div>
-            <div class="fin-sub">360 Performance Savings</div>
-          </div>
+          <div><div class="fin-brand">Capital One</div><div class="fin-apy">3.00<sup>% APY</sup></div><div class="fin-sub">360 Performance Savings &middot; Member FDIC</div></div>
           <button class="fin-btn">OPEN ACCOUNT</button>
         </div>
-
         <div class="fin-card">
-          <div>
-            <div class="fin-brand">SoFi</div>
-            <div class="fin-sub">Checking &amp; Savings &middot; Member FDIC</div>
-            <div class="fin-apy">3.80<sup>% APY</sup></div>
-          </div>
+          <div><div class="fin-brand">SoFi</div><div class="fin-sub">Checking &amp; Savings &middot; Member FDIC</div><div class="fin-apy">3.80<sup>% APY</sup></div><div class="fin-sub">+0.70% boost on new accounts</div></div>
           <button class="fin-btn">START BANKING</button>
         </div>
-
         <div class="fin-card">
-          <div>
-            <div class="fin-brand">Betterment</div>
-            <div class="fin-sub">Cash Reserve</div>
-            <div class="fin-apy">4.00<sup>% APY</sup></div>
-          </div>
+          <div><div class="fin-brand">Betterment</div><div class="fin-sub">Cash Reserve &middot; New customer offer</div><div class="fin-apy">4.00<sup>% APY</sup></div></div>
           <button class="fin-btn">CLAIM OFFER</button>
         </div>
+        <div class="disc">Sponsors of GOBankingRates &middot; Advertiser Disclosure</div>
 
-        <div style="text-align:center;color:var(--gray);font-size:11px;margin-top:8px;">Sponsors of GOBankingRates &middot; Advertiser Disclosure</div>
+        <!-- Fiber internet ad -->
+        <div class="ad-label" style="margin-top:24px">Advertisement</div>
+        <svg viewBox="0 0 320 300" width="100%" role="img" aria-label="Switch for 300 Mbps Fiber Internet">
+          <rect width="320" height="300" fill="#0b57d0"/>
+          <text x="24" y="120" font-family="Arial" font-weight="900" font-size="30" fill="#fff">Switch for</text>
+          <text x="24" y="160" font-family="Arial" font-weight="900" font-size="34" fill="#fff">300 Mbps</text>
+          <text x="24" y="196" font-family="Arial" font-weight="900" font-size="30" fill="#fff">Fiber Internet</text>
+          <rect x="24" y="230" width="150" height="42" rx="21" fill="#fff"/>
+          <text x="99" y="257" text-anchor="middle" font-family="Arial" font-weight="800" font-size="15" fill="#0b57d0">Switch today</text>
+        </svg>
 
-        <div class="ad-label" style="margin-top:26px;">Advertisement</div>
-        <div class="ad ad-video" style="min-height:260px;">
-          <span class="tag">Ad</span>
-          <div class="play">&#9658;</div>
-          <h4>Play a mix of games, in your inbox</h4>
+        <!-- Peak Health native ad -->
+        <div class="ad-label" style="margin-top:24px">Advertisement</div>
+        <div class="story-mini" style="border-top:none">
+          <svg viewBox="0 0 96 64" aria-label="Peak Health ad"><rect width="96" height="64" fill="#c7d3da"/><circle cx="34" cy="30" r="16" fill="#e2b48c"/><rect x="20" y="42" width="60" height="22" rx="6" fill="#7f9bb0"/></svg>
+          <div><div class="m-ttl" style="font-size:15px">Why 110,000+ Men Over 40 Are Quietly Throwing Out Their Blue Pills</div><div class="m-cat">Peak Health Reviews | Ad</div></div>
+        </div>
+
+        <!-- More Stories with thumbnails -->
+        <h3 style="font-family:var(--serif);font-size:22px;margin:26px 0 6px;border-bottom:2px solid var(--brand);padding-bottom:8px">More Stories</h3>
+
+        <div class="story-mini">
+          <svg viewBox="0 0 96 64" aria-label="Nancy Guthrie story"><rect width="96" height="64" fill="#d8c9bd"/><circle cx="34" cy="26" r="14" fill="#e8c9a8"/><path d="M14 64q20-20 40 0z" fill="#8a5a3c"/><circle cx="66" cy="30" r="12" fill="#c9a888"/></svg>
+          <div><div class="m-ttl">Ransom note suggests how Nancy Guthrie died, article says</div><div class="m-cat">NEWS</div></div>
+        </div>
+        <div class="story-mini">
+          <svg viewBox="0 0 96 64" aria-label="Sports Illustrated Swimsuit"><rect width="96" height="64" fill="#4aa6c9"/><rect y="44" width="96" height="20" fill="#e6cfa0"/><circle cx="48" cy="26" r="14" fill="#e2b48c"/><rect x="40" y="34" width="16" height="30" fill="#d14b6a"/></svg>
+          <div><div class="m-ttl">Sports Illustrated Swimsuit cover stars revealed: See the photos</div><div class="m-cat">ENTERTAINMENT</div></div>
+        </div>
+        <div class="story-mini">
+          <svg viewBox="0 0 96 64" aria-label="Tesla EVs"><rect width="96" height="64" fill="#dfe6ea"/><path d="M18 44q6-16 22-16h24q14 0 20 14l6 2v6H12v-4z" fill="#b23b3b"/><circle cx="34" cy="52" r="7" fill="#222"/><circle cx="70" cy="52" r="7" fill="#222"/></svg>
+          <div><div class="m-ttl">Tesla has a glut of unsold EVs. Here&rsquo;s what they are doing about it</div><div class="m-cat">MONEY</div></div>
+        </div>
+
+        <!-- games email box -->
+        <div class="games-box">
+          <h4>PLAY a mix of games, in your inbox</h4>
+          <p>Your go-to spot where fun comes first with games, puzzles, comics, horoscopes and more!</p>
+          <div class="inp"><input type="email" placeholder="Email Address" aria-label="Email Address"/><button>&rarr;</button></div>
         </div>
       </div>
     </aside>
   </div>
 
-  <!-- ===== Bottom leaderboard ad ===== -->
-  <div class="wrap" style="display:block;">
+  <!-- ===================== BOTTOM AMAZON BANNER ===================== -->
+  <div class="wrap" style="display:block">
     <div class="ad-label">Advertisement</div>
-    <div class="ad-amazon">
-      <div class="copy">60% of sales on Amazon come<br>from <span class="hl">independent sellers</span></div>
-      <div class="logo">amaz<span class="hl">on</span></div>
-    </div>
+    <svg viewBox="0 0 1160 120" width="100%" role="img" aria-label="Amazon ad">
+      <rect width="1160" height="120" fill="#0f1111"/>
+      <text x="40" y="55" font-family="Arial" font-weight="800" font-size="30" fill="#fff">60% of sales on <tspan fill="#ff9900">Amazon</tspan> come</text>
+      <text x="40" y="95" font-family="Arial" font-weight="800" font-size="30" fill="#fff">from independent sellers</text>
+      <text x="1030" y="72" text-anchor="end" font-family="Arial" font-weight="800" font-size="30" fill="#fff">amaz<tspan fill="#ff9900">on</tspan></text>
+      <path d="M960 82 q35 20 68 0" stroke="#ff9900" stroke-width="4" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- ===================== HBO MAX STICKY-STYLE STRIP ===================== -->
+  <div class="wrap" style="display:block">
+    <div class="ad-label">Advertisement</div>
+    <svg viewBox="0 0 1160 90" width="100%" role="img" aria-label="HBO Max ad">
+      <rect width="1160" height="90" fill="#0a0a0a"/>
+      <text x="40" y="40" font-family="Arial" font-weight="800" font-size="16" fill="#bbb" letter-spacing="1">STARTING AT</text>
+      <text x="40" y="72" font-family="Arial" font-weight="900" font-size="30" fill="#fff">$6.58<tspan font-size="16" fill="#bbb"> /MO WHEN YOU PREPAY FOR A YEAR</tspan></text>
+      <text x="1000" y="56" text-anchor="end" font-family="Arial" font-weight="900" font-size="26" fill="#fff">HBO <tspan fill="#7a5cff">max</tspan></text>
+      <text x="1120" y="56" text-anchor="end" font-family="Arial" font-size="13" fill="#9ecbff">on prime video</text>
+    </svg>
   </div>
 
   <footer class="site">
     <div class="f">
-      <div>&copy; 2026 USA TODAY, a division of Gannett Satellite Information Network, LLC. &nbsp;<em>(Demo layout &mdash; not affiliated with USA TODAY.)</em></div>
+      <div>&copy; 2026 USA TODAY, a division of Gannett Satellite Information Network, LLC. &nbsp;<em>(Demo layout &mdash; recreated for preview, not affiliated with USA TODAY.)</em></div>
       <div><a href="#">Terms</a> &middot; <a href="#">Privacy</a> &middot; <a href="#">Your Privacy Choices</a></div>
     </div>
   </footer>
