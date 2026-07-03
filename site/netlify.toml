@@ -1,0 +1,5 @@
+# Netlify deploy config for the demo article site.
+# Drag-and-drop the "site" folder into Netlify, or connect the repo and set
+# the publish directory to "site".
+[build]
+  publish = "."
