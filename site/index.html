@@ -188,21 +188,10 @@
       </g>
       <line x1="128" y1="298" x2="128" y2="328" stroke="#6f7a7e" stroke-width="1"/>
       <text x="142" y="318" font-family="Georgia,serif" font-size="15" letter-spacing="3" fill="#fff">SANDERSON LINCOLN</text>
-      <!-- right: SUV on road -->
-      <rect x="600" y="40" width="500" height="280" rx="4" fill="#cdd6cf"/>
-      <rect x="600" y="230" width="500" height="90" fill="#c3a98a"/>
-      <!-- trees -->
-      <circle cx="700" cy="120" r="55" fill="#8ba888" opacity=".7"/>
-      <circle cx="980" cy="110" r="65" fill="#7f9d7c" opacity=".7"/>
-      <!-- SUV body -->
-      <g>
-        <path d="M660 250 q10 -60 70 -68 l150 -6 q60 2 95 40 l70 6 q40 6 40 30 l0 22 -25 0 a24 24 0 0 0 -48 0 l-250 0 a24 24 0 0 0 -48 0 l-30 0 q-6 -40 -1 -76z" fill="#8fa6bd"/>
-        <path d="M735 195 l135 -3 q42 2 66 30 l-267 0 q16 -25 66 -27z" fill="#dfe7ee" opacity=".85"/>
-        <circle cx="726" cy="272" r="26" fill="#20262c"/><circle cx="726" cy="272" r="12" fill="#8b949c"/>
-        <circle cx="1004" cy="272" r="26" fill="#20262c"/><circle cx="1004" cy="272" r="12" fill="#8b949c"/>
-      </g>
-      <!-- inset thumbs -->
-      <rect x="600" y="40" width="0" height="0"/>
+      <!-- right: real luxury SUV photo -->
+      <clipPath id="suvclip"><rect x="600" y="40" width="500" height="280" rx="6"/></clipPath>
+      <image href="images/ad-lincoln-suv.jpg" x="600" y="40" width="500" height="280"
+             preserveAspectRatio="xMidYMid slice" clip-path="url(#suvclip)"/>
     </svg>
   </div>
 
@@ -219,7 +208,7 @@
 
       <div class="byline">
         <span class="avatar">
-          <svg viewBox="0 0 46 46" width="46" height="46"><rect width="46" height="46" fill="#5b7488"/><circle cx="23" cy="18" r="9" fill="#d9e2e8"/><path d="M6 46c0-11 8-16 17-16s17 5 17 16z" fill="#d9e2e8"/></svg>
+          <img src="images/author-keith.jpg" alt="Keith Laing" width="46" height="46" style="width:46px;height:46px;object-fit:cover" />
         </span>
         <div class="who"><a href="#" class="author">Keith Laing</a><span class="org">USA TODAY</span></div>
       </div>
@@ -281,17 +270,20 @@
         <!-- nanit in-body video ad -->
         <div class="ad-label">Advertisement</div>
         <svg viewBox="0 0 720 360" width="100%" role="img" aria-label="nanit baby monitor ad">
-          <rect width="720" height="360" fill="#33424e"/>
-          <rect width="720" height="360" fill="url(#g)"/>
-          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d4d5a"/><stop offset="1" stop-color="#1b2830"/></linearGradient></defs>
-          <rect x="16" y="14" width="42" height="22" rx="3" fill="rgba(0,0,0,.5)"/>
+          <defs>
+            <linearGradient id="ov" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="rgba(10,18,26,.85)"/>
+              <stop offset="0.55" stop-color="rgba(10,18,26,.45)"/>
+              <stop offset="1" stop-color="rgba(10,18,26,.15)"/>
+            </linearGradient>
+          </defs>
+          <image href="images/ad-nanit-baby.jpg" x="0" y="0" width="720" height="360" preserveAspectRatio="xMidYMid slice"/>
+          <rect width="720" height="360" fill="url(#ov)"/>
+          <rect x="16" y="14" width="42" height="22" rx="3" fill="rgba(0,0,0,.6)"/>
           <text x="37" y="30" text-anchor="middle" font-family="Arial" font-size="12" fill="#fff">Ad</text>
-          <!-- baby crib blanket -->
-          <ellipse cx="360" cy="300" rx="360" ry="90" fill="#4a5a66"/>
-          <circle cx="360" cy="250" r="34" fill="#e6c9b0"/>
-          <text x="60" y="150" font-family="Georgia,serif" font-size="42" fill="#eef2f4">You can leave the</text>
-          <text x="60" y="200" font-family="Georgia,serif" font-size="42" fill="#eef2f4">hovering to us</text>
-          <text x="620" y="345" text-anchor="end" font-family="Arial" font-weight="800" font-size="24" fill="#fff">nanit</text>
+          <text x="52" y="150" font-family="Georgia,serif" font-size="42" fill="#f4f7f9">You can leave the</text>
+          <text x="52" y="200" font-family="Georgia,serif" font-size="42" fill="#f4f7f9">hovering to us</text>
+          <text x="690" y="342" text-anchor="end" font-family="Arial,Helvetica" font-weight="800" font-size="26" fill="#fff">nanit</text>
         </svg>
 
         <p>Authorities have not reported any indication that the bull had shown aggression toward Thompson or others before Monday, and no charges or further action against the animal have been announced. The bull remains secured following the events, the sheriff&rsquo;s office said.</p>

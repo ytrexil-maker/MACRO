@@ -22,3 +22,8 @@ Files:
   s-swimsuit.jpg       - beach
   s-tesla.jpg          - electric car
   s-health.jpg         - fitness
+  ad-lincoln-suv.jpg   - luxury SUV (Lincoln hero ad, right side)
+  ad-nanit-baby.jpg    - sleeping baby in crib (nanit ad)
+
+author-keith.jpg  - byline headshot, from randomuser.me (free-to-use portrait).
+                    A generic placeholder portrait, NOT the real journalist.
