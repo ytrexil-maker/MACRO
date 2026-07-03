@@ -181,10 +181,13 @@
       <text x="60" y="256" font-family="Helvetica,Arial" font-size="18" fill="#3a4a4d">for a centered expression of style and motion.</text>
       <!-- Sanderson Lincoln bar -->
       <rect x="60" y="290" width="480" height="46" fill="#2f3b40"/>
-      <rect x="80" y="300" width="2" height="26" fill="#fff"/>
-      <ellipse cx="98" cy="313" rx="12" ry="7" fill="none" stroke="#fff" stroke-width="1.4"/>
-      <line x1="118" y1="300" x2="118" y2="326" stroke="#fff" stroke-width="1"/>
-      <text x="132" y="319" font-family="Georgia,serif" font-size="16" letter-spacing="3" fill="#fff">SANDERSON LINCOLN</text>
+      <!-- Lincoln four-point star emblem in a rectangle -->
+      <g transform="translate(78,297)">
+        <rect x="0" y="0" width="34" height="32" fill="none" stroke="#fff" stroke-width="1.4"/>
+        <polygon points="17,4 21,14 30,16 21,18 17,28 13,18 4,16 13,14" fill="#fff"/>
+      </g>
+      <line x1="128" y1="298" x2="128" y2="328" stroke="#6f7a7e" stroke-width="1"/>
+      <text x="142" y="318" font-family="Georgia,serif" font-size="15" letter-spacing="3" fill="#fff">SANDERSON LINCOLN</text>
       <!-- right: SUV on road -->
       <rect x="600" y="40" width="500" height="280" rx="4" fill="#cdd6cf"/>
       <rect x="600" y="230" width="500" height="90" fill="#c3a98a"/>
@@ -273,12 +276,21 @@
       <div class="ad-label">Advertisement</div>
       <svg viewBox="0 0 720 150" width="100%" role="img" aria-label="ESPN MLB.TV ad">
         <rect width="720" height="150" fill="#0b0b0b"/>
-        <rect x="24" y="30" width="120" height="42" rx="4" fill="#e0271c"/>
-        <text x="84" y="60" text-anchor="middle" font-family="Arial" font-weight="900" font-size="26" font-style="italic" fill="#fff">ESPN</text>
-        <text x="24" y="112" font-family="Arial" font-weight="900" font-size="20" fill="#fff">MLB.TV</text>
-        <text x="170" y="52" font-family="Arial" font-weight="900" font-size="26" fill="#e0271c">ESPN IS THE HOME OF MLB.TV</text>
-        <text x="170" y="82" font-family="Arial" font-size="15" fill="#e8e8e8">Upgrade to an ESPN Unlimited Plan to add MLB.TV and</text>
-        <text x="170" y="104" font-family="Arial" font-size="15" fill="#e8e8e8">stream all out-of-market games, live or on demand.</text>
+        <!-- ESPN wordmark: red italic slanted mark -->
+        <g transform="translate(24,34)" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-style="italic" fill="#e0271c">
+          <rect x="-4" y="-2" width="132" height="40" rx="3" fill="#e0271c"/>
+          <text x="62" y="27" text-anchor="middle" font-size="27" fill="#fff" letter-spacing="1">ESPN</text>
+        </g>
+        <!-- MLB.TV mark: red/blue batter silhouette + wordmark -->
+        <g transform="translate(24,86)">
+          <rect width="40" height="46" rx="3" fill="#e0271c"/>
+          <rect x="0" width="20" height="46" rx="3" fill="#00318f"/>
+          <path d="M10 8 a4 4 0 1 1 0 .1 M8 16 l6 14 -3 12 M20 20 l10 -6" stroke="#fff" stroke-width="3" fill="none"/>
+          <text x="50" y="34" font-family="Arial" font-weight="900" font-size="22" fill="#fff">MLB.TV</text>
+        </g>
+        <text x="200" y="52" font-family="Arial" font-weight="900" font-style="italic" font-size="26" fill="#e0271c">ESPN IS THE HOME OF MLB.TV</text>
+        <text x="200" y="82" font-family="Arial" font-size="15" fill="#e8e8e8">Upgrade to an ESPN Unlimited Plan to add MLB.TV and</text>
+        <text x="200" y="104" font-family="Arial" font-size="15" fill="#e8e8e8">stream all out-of-market games, live or on demand.</text>
         <rect x="560" y="52" width="130" height="40" rx="4" fill="#fff"/>
         <text x="625" y="78" text-anchor="middle" font-family="Arial" font-weight="800" font-size="14" fill="#0b0b0b">SIGN UP NOW</text>
       </svg>
@@ -403,19 +415,39 @@
         <!-- E*TRADE / Capital One / SoFi / Betterment finance rail -->
         <div class="ad-label">Advertisement</div>
         <div class="fin-card">
-          <div><div class="fin-brand">E&#42;TRADE</div><div class="fin-sub">from Morgan Stanley &middot; Member FDIC</div><div class="fin-apy">4.10<sup>% APY</sup></div><div class="fin-sub">12-Month Certificate of Deposit</div></div>
+          <div>
+            <svg viewBox="0 0 150 22" width="120" height="18" aria-label="E*TRADE from Morgan Stanley">
+              <text x="0" y="18" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="20" fill="#00874d">E</text>
+              <polygon points="20,4 22,10 28,10 23,14 25,20 20,16 15,20 17,14 12,10 18,10" fill="#00a862" transform="scale(0.7) translate(9,3)"/>
+              <text x="26" y="18" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="20" fill="#00874d">TRADE</text>
+            </svg>
+            <div class="fin-sub">from Morgan Stanley &middot; Member FDIC</div><div class="fin-apy">4.10<sup>% APY</sup></div><div class="fin-sub">12-Month Certificate of Deposit</div></div>
           <button class="fin-btn">GET STARTED</button>
         </div>
         <div class="fin-card">
-          <div><div class="fin-brand">Capital One</div><div class="fin-apy">3.00<sup>% APY</sup></div><div class="fin-sub">360 Performance Savings &middot; Member FDIC</div></div>
+          <div>
+            <svg viewBox="0 0 150 24" width="120" height="20" aria-label="Capital One">
+              <text x="0" y="19" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="19" fill="#004977">Capital<tspan font-weight="400">One</tspan></text>
+              <path d="M2 4 q60 -8 120 4" stroke="#d03027" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="fin-apy">3.00<sup>% APY</sup></div><div class="fin-sub">360 Performance Savings &middot; Member FDIC</div></div>
           <button class="fin-btn">OPEN ACCOUNT</button>
         </div>
         <div class="fin-card">
-          <div><div class="fin-brand">SoFi</div><div class="fin-sub">Checking &amp; Savings &middot; Member FDIC</div><div class="fin-apy">3.80<sup>% APY</sup></div><div class="fin-sub">+0.70% boost on new accounts</div></div>
+          <div>
+            <svg viewBox="0 0 90 24" width="72" height="19" aria-label="SoFi">
+              <text x="0" y="19" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="20" fill="#00a0c6">SoFi</text>
+            </svg>
+            <div class="fin-sub">Checking &amp; Savings &middot; Member FDIC</div><div class="fin-apy">3.80<sup>% APY</sup></div><div class="fin-sub">+0.70% boost on new accounts</div></div>
           <button class="fin-btn">START BANKING</button>
         </div>
         <div class="fin-card">
-          <div><div class="fin-brand">Betterment</div><div class="fin-sub">Cash Reserve &middot; New customer offer</div><div class="fin-apy">4.00<sup>% APY</sup></div></div>
+          <div>
+            <svg viewBox="0 0 150 24" width="120" height="19" aria-label="Betterment">
+              <circle cx="8" cy="12" r="7" fill="#0f2b46"/><path d="M4 12 a4 4 0 0 1 8 0z" fill="#f4b23e"/>
+              <text x="20" y="18" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="18" fill="#0f2b46">Betterment</text>
+            </svg>
+            <div class="fin-sub">Cash Reserve &middot; New customer offer</div><div class="fin-apy">4.00<sup>% APY</sup></div></div>
           <button class="fin-btn">CLAIM OFFER</button>
         </div>
         <div class="disc">Sponsors of GOBankingRates &middot; Advertiser Disclosure</div>
@@ -469,10 +501,14 @@
     <div class="ad-label">Advertisement</div>
     <svg viewBox="0 0 1160 120" width="100%" role="img" aria-label="Amazon ad">
       <rect width="1160" height="120" fill="#0f1111"/>
-      <text x="40" y="55" font-family="Arial" font-weight="800" font-size="30" fill="#fff">60% of sales on <tspan fill="#ff9900">Amazon</tspan> come</text>
+      <text x="40" y="55" font-family="Arial" font-weight="800" font-size="30" fill="#fff">60% of sales on Amazon come</text>
       <text x="40" y="95" font-family="Arial" font-weight="800" font-size="30" fill="#fff">from independent sellers</text>
-      <text x="1030" y="72" text-anchor="end" font-family="Arial" font-weight="800" font-size="30" fill="#fff">amaz<tspan fill="#ff9900">on</tspan></text>
-      <path d="M960 82 q35 20 68 0" stroke="#ff9900" stroke-width="4" fill="none"/>
+      <!-- amazon wordmark with smile arrow (a -> z) -->
+      <g transform="translate(950,42)">
+        <text x="0" y="30" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="44" fill="#fff" letter-spacing="-1">amazon</text>
+        <path d="M6 44 q64 30 132 4" stroke="#ff9900" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M138 48 l14 -6 -3 15 z" fill="#ff9900"/>
+      </g>
     </svg>
   </div>
 
