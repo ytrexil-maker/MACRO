@@ -100,7 +100,7 @@
     .more-grid h3{font-family:var(--serif);font-size:24px;margin:36px 0 16px;border-bottom:2px solid var(--brand);padding-bottom:8px}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
     @media(max-width:560px){.grid{grid-template-columns:1fr}}
-    .card svg,.card img{width:100%;border-radius:2px}
+    .card svg,.card img{width:100%;border-radius:2px;aspect-ratio:17/10;object-fit:cover;display:block}
     .card .cat{color:var(--brand);font-weight:800;font-size:11px;letter-spacing:.5px;margin:8px 0 4px}
     .card .ttl{font-family:var(--serif);font-size:18px;font-weight:700;line-height:1.25}
     .card .ttl a{color:var(--ink)}
@@ -240,36 +240,8 @@
 
       <!-- lead photo -->
       <figure>
-        <svg viewBox="0 0 720 420" role="img" aria-label="Cattle pen at dusk on an Iowa farm">
-          <rect width="720" height="420" fill="#cfd9df"/>
-          <rect y="250" width="720" height="170" fill="#8a9a5b"/>
-          <rect y="250" width="720" height="24" fill="#9caa6a"/>
-          <!-- barn -->
-          <rect x="70" y="150" width="180" height="110" fill="#8f3b32"/>
-          <polygon points="60,150 160,100 260,150" fill="#6f2c25"/>
-          <rect x="145" y="200" width="34" height="60" fill="#5c241e"/>
-          <!-- silo -->
-          <rect x="270" y="130" width="46" height="130" fill="#c7ccc9"/>
-          <ellipse cx="293" cy="130" rx="23" ry="12" fill="#aeb4b0"/>
-          <!-- fence -->
-          <g stroke="#6b5842" stroke-width="6">
-            <line x1="0" y1="300" x2="720" y2="300"/><line x1="0" y1="330" x2="720" y2="330"/>
-            <line x1="60" y1="285" x2="60" y2="360"/><line x1="200" y1="285" x2="200" y2="360"/>
-            <line x1="340" y1="285" x2="340" y2="360"/><line x1="480" y1="285" x2="480" y2="360"/>
-            <line x1="620" y1="285" x2="620" y2="360"/>
-          </g>
-          <!-- black bull -->
-          <g fill="#1c1c1c">
-            <ellipse cx="500" cy="330" rx="90" ry="46"/>
-            <rect x="560" y="300" width="60" height="42" rx="14"/>
-            <path d="M612 300 q14 -12 4 -22 M612 306 q18 -6 14 -18" stroke="#1c1c1c" stroke-width="5" fill="none"/>
-            <rect x="430" y="360" width="12" height="46"/><rect x="470" y="360" width="12" height="46"/>
-            <rect x="540" y="360" width="12" height="46"/><rect x="575" y="360" width="12" height="46"/>
-          </g>
-          <!-- sky sun -->
-          <circle cx="620" cy="90" r="40" fill="#f2d9a0" opacity=".8"/>
-        </svg>
-        <figcaption>A black bull in a herd on a family cattle operation. Authorities say the animal fatally attacked a 68-year-old farmer near Harlan, Iowa. <span style="font-style:italic">Illustration / USA TODAY</span></figcaption>
+        <img src="images/lead-bull.jpg" alt="A large bull in a pasture" loading="lazy" />
+        <figcaption>A bull in a herd on a family cattle operation. Authorities say a black bull fatally attacked a 68-year-old farmer near Harlan, Iowa. <span style="font-style:italic">Photo via Flickr / Creative Commons</span></figcaption>
       </figure>
 
       <!-- ESPN MLB.TV in-article ad -->
@@ -338,69 +310,37 @@
         <h3>More from USA TODAY</h3>
         <div class="grid">
           <div class="card">
-            <svg viewBox="0 0 340 200" role="img" aria-label="Supreme Court">
-              <rect width="340" height="200" fill="#d7d2c4"/><rect y="150" width="340" height="50" fill="#3b3b3b"/>
-              <g fill="#2c2c2c"><rect x="30" y="70" width="30" height="90"/><rect x="80" y="70" width="30" height="90"/><rect x="130" y="70" width="30" height="90"/><rect x="180" y="70" width="30" height="90"/><rect x="230" y="70" width="30" height="90"/><rect x="280" y="70" width="30" height="90"/></g>
-              <polygon points="15,70 170,30 325,70" fill="#c9c3b3"/>
-            </svg>
+            <img src="images/t-supreme-court.jpg" alt="U.S. Supreme Court building" loading="lazy" />
             <div class="cat">POLITICS</div>
             <div class="ttl"><a href="#">In a polarized Supreme Court, even its conservatives are divided on Trump</a></div>
           </div>
 
           <div class="card">
-            <svg viewBox="0 0 340 200" role="img" aria-label="US heat map">
-              <rect width="340" height="200" fill="#fff"/>
-              <g fill="#e0271c" opacity=".85"><path d="M60 60 q60 -20 120 10 q60 30 100 10 l10 40 q-40 40 -110 40 q-90 10 -130 -30 q-20 -40 10 -70z"/></g>
-              <g fill="#f7b1a6"><path d="M40 70 q40 -10 70 6 l-6 60 q-50 6 -70 -20z"/></g>
-              <g fill="#a81409"><circle cx="150" cy="110" r="14"/><circle cx="220" cy="95" r="12"/><circle cx="120" cy="130" r="10"/></g>
-            </svg>
+            <img src="images/t-heat.jpg" alt="Sun and extreme heat" loading="lazy" />
             <div class="cat">WEATHER</div>
             <div class="ttl"><a href="#">Who doesn&rsquo;t have AC? Maps show the places that use it least</a></div>
           </div>
 
           <div class="card">
-            <svg viewBox="0 0 340 200" role="img" aria-label="Child in life jacket on a boat">
-              <rect width="340" height="200" fill="#5fa8d3"/><rect y="120" width="340" height="80" fill="#2f6f9e"/>
-              <rect x="0" y="150" width="340" height="50" fill="#6b5842"/>
-              <circle cx="170" cy="90" r="34" fill="#f0c9a8"/>
-              <rect x="140" y="110" width="60" height="60" rx="10" fill="#e8621f"/>
-              <rect x="150" y="55" width="40" height="22" rx="6" fill="#1c3f6e"/>
-            </svg>
+            <img src="images/t-boat.jpg" alt="Child on a boat on a lake" loading="lazy" />
             <div class="cat">HEALTH AND WELLNESS</div>
             <div class="ttl"><a href="#">Their 6-year-old son drowned. Here&rsquo;s what they want families to know</a></div>
           </div>
 
           <div class="card">
-            <svg viewBox="0 0 340 200" role="img" aria-label="Baby with US flag">
-              <rect width="340" height="200" fill="#e9eef2"/>
-              <circle cx="140" cy="100" r="46" fill="#f0c9a8"/>
-              <path d="M96 150 q44 -30 88 0 l0 50 -88 0z" fill="#2f4f7a"/>
-              <g><rect x="210" y="60" width="90" height="60" fill="#b22234"/><rect x="210" y="60" width="40" height="30" fill="#3c3b6e"/>
-                 <g fill="#fff"><rect x="210" y="70" width="90" height="6"/><rect x="210" y="86" width="90" height="6"/><rect x="210" y="102" width="90" height="6"/></g></g>
-            </svg>
+            <img src="images/t-baby-flag.jpg" alt="Baby with an American flag" loading="lazy" />
             <div class="cat">PERSONAL FINANCE</div>
             <div class="ttl"><a href="#">Millions of babies getting $1K on July 4 with a Trump Account</a></div>
           </div>
 
           <div class="card">
-            <svg viewBox="0 0 340 200" role="img" aria-label="School students in a hallway">
-              <rect width="340" height="200" fill="#e7dfc9"/><rect y="150" width="340" height="50" fill="#c8b58a"/>
-              <rect x="20" y="40" width="50" height="110" fill="#b98"/><rect x="270" y="40" width="50" height="110" fill="#b98"/>
-              <circle cx="150" cy="80" r="22" fill="#e8c39c"/><rect x="128" y="100" width="44" height="60" rx="8" fill="#3b6ea5"/>
-              <circle cx="210" cy="82" r="20" fill="#d9a97a"/><rect x="190" y="100" width="40" height="56" rx="8" fill="#a33"/>
-            </svg>
+            <img src="images/t-school.jpg" alt="Students in a school hallway" loading="lazy" />
             <div class="cat">EDUCATION</div>
             <div class="ttl"><a href="#">Indiana&rsquo;s workforce starts at IU campuses</a></div>
           </div>
 
           <div class="card">
-            <svg viewBox="0 0 340 200" role="img" aria-label="World Cup soccer">
-              <rect width="340" height="200" fill="#3f8f4f"/>
-              <g stroke="#4fa85f" stroke-width="4"><line x1="170" y1="0" x2="170" y2="200"/><circle cx="170" cy="100" r="36" fill="none"/></g>
-              <circle cx="120" cy="120" r="16" fill="#fff"/><polygon points="120,108 128,116 124,128 116,128 112,116" fill="#111"/>
-              <rect x="200" y="70" width="34" height="70" rx="8" fill="#6aa9d8"/>
-              <circle cx="217" cy="58" r="14" fill="#d9a97a"/>
-            </svg>
+            <img src="images/t-soccer.jpg" alt="Soccer player in a stadium" loading="lazy" />
             <div class="cat">WORLD CUP</div>
             <div class="ttl"><a href="#">Lionel Messi faces underdog Cape Verde in a win-or-go-home contest</a></div>
           </div>
@@ -466,7 +406,7 @@
         <!-- Peak Health native ad -->
         <div class="ad-label" style="margin-top:24px">Advertisement</div>
         <div class="story-mini" style="border-top:none">
-          <svg viewBox="0 0 96 64" aria-label="Peak Health ad"><rect width="96" height="64" fill="#c7d3da"/><circle cx="34" cy="30" r="16" fill="#e2b48c"/><rect x="20" y="42" width="60" height="22" rx="6" fill="#7f9bb0"/></svg>
+          <img src="images/s-health.jpg" alt="Fitness" loading="lazy" />
           <div><div class="m-ttl" style="font-size:15px">Why 110,000+ Men Over 40 Are Quietly Throwing Out Their Blue Pills</div><div class="m-cat">Peak Health Reviews | Ad</div></div>
         </div>
 
@@ -474,15 +414,15 @@
         <h3 style="font-family:var(--serif);font-size:22px;margin:26px 0 6px;border-bottom:2px solid var(--brand);padding-bottom:8px">More Stories</h3>
 
         <div class="story-mini">
-          <svg viewBox="0 0 96 64" aria-label="Nancy Guthrie story"><rect width="96" height="64" fill="#d8c9bd"/><circle cx="34" cy="26" r="14" fill="#e8c9a8"/><path d="M14 64q20-20 40 0z" fill="#8a5a3c"/><circle cx="66" cy="30" r="12" fill="#c9a888"/></svg>
+          <img src="images/s-investigation.jpg" alt="Police investigation" loading="lazy" />
           <div><div class="m-ttl">Ransom note suggests how Nancy Guthrie died, article says</div><div class="m-cat">NEWS</div></div>
         </div>
         <div class="story-mini">
-          <svg viewBox="0 0 96 64" aria-label="Sports Illustrated Swimsuit"><rect width="96" height="64" fill="#4aa6c9"/><rect y="44" width="96" height="20" fill="#e6cfa0"/><circle cx="48" cy="26" r="14" fill="#e2b48c"/><rect x="40" y="34" width="16" height="30" fill="#d14b6a"/></svg>
+          <img src="images/s-swimsuit.jpg" alt="Beach" loading="lazy" />
           <div><div class="m-ttl">Sports Illustrated Swimsuit cover stars revealed: See the photos</div><div class="m-cat">ENTERTAINMENT</div></div>
         </div>
         <div class="story-mini">
-          <svg viewBox="0 0 96 64" aria-label="Tesla EVs"><rect width="96" height="64" fill="#dfe6ea"/><path d="M18 44q6-16 22-16h24q14 0 20 14l6 2v6H12v-4z" fill="#b23b3b"/><circle cx="34" cy="52" r="7" fill="#222"/><circle cx="70" cy="52" r="7" fill="#222"/></svg>
+          <img src="images/s-tesla.jpg" alt="Electric car" loading="lazy" />
           <div><div class="m-ttl">Tesla has a glut of unsold EVs. Here&rsquo;s what they are doing about it</div><div class="m-cat">MONEY</div></div>
         </div>
 

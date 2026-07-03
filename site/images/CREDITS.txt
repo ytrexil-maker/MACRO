@@ -1,0 +1,24 @@
+Thumbnail and lead photos on this demo page are subject-matching
+Creative Commons photographs sourced via LoremFlickr (https://loremflickr.com),
+which serves images from Flickr's Creative Commons pool.
+
+These are look-alike stock photos chosen to match each story's subject.
+They are NOT the original USA TODAY / AP / Getty photographs.
+
+Note on licensing: many Flickr CC images are licensed CC BY / BY-SA / BY-NC.
+Some carry a NonCommercial (NC) restriction. Before using this page for any
+commercial purpose, verify and attribute each image's specific license, or
+replace it with a photo you own or have licensed.
+
+Files:
+  lead-bull.jpg        - bull (article lead)
+  t-supreme-court.jpg  - Supreme Court
+  t-heat.jpg           - heat / sun
+  t-boat.jpg           - child on boat
+  t-baby-flag.jpg      - baby with flag
+  t-school.jpg         - school hallway
+  t-soccer.jpg         - soccer / World Cup
+  s-investigation.jpg  - police investigation
+  s-swimsuit.jpg       - beach
+  s-tesla.jpg          - electric car
+  s-health.jpg         - fitness
