@@ -1,5 +1,15 @@
 # Fortnite Macro Recorder
 
+> **This repo now has two tools:**
+> 1. **Macro Recorder** (`fortnite_macro.py` / `macro_gui.py`) — records &
+>    replays mouse/keyboard input. Documented below.
+> 2. **Clip & Inject** (`clip_audio.py` / `clip_gui.py`) — a background **audio
+>    clipper + mic injector** (GeForce-overlay style): grab the last few
+>    seconds of game audio, play it back to only yourself, or **inject it into
+>    your mic so teammates hear it** — without creating a new microphone. See
+>    **[Clip & Inject](#clip--inject-background-audio-clipper--mic-injector)**
+>    at the bottom.
+
 A lightweight background macro tool you run **overtop Fortnite** (or any other
 game). Press a key to record; it gives you a **3-beep countdown ending on a
 spoken "GO"**, then captures your **exact mouse movements, clicks, scrolls and
@@ -150,3 +160,127 @@ keeping movement and key timing in sync at any speed.
   tap the affected key once.
 - **Files are huge:** set `record_mouse_moves` to `False` to capture only
   clicks, scrolls and keystrokes.
+
+---
+
+# Clip & Inject — background audio clipper + mic injector
+
+Run it overtop Fortnite like a GeForce/Shadowplay overlay. Global hotkeys work
+**even while the game is focused**. You can:
+
+- **Clip the last N seconds** of audio (instant-replay buffer, default **4s**) —
+  one key, always on.
+- **Manual clip** — one key starts recording, the same key stops it.
+- **Ghost play** — replay the most recent clip **only into your own headphones**.
+  Nobody else hears it.
+- **Inject play** — replay the most recent clip **into your microphone** so your
+  teammates / the lobby hear it. Great for trolling in a video.
+
+> 🔑 **It never creates its own microphone.** It only *plays* the clip into an
+> output you **already have** that loops back into an existing mic. That is the
+> whole trick — no new device is installed or registered.
+
+> ⚠️ Injecting audio into voice chat can annoy people or break a game's rules.
+> Meant for making videos with friends who are in on it. Your machine, your risk.
+
+## How injection reaches teammates without a new mic
+
+```
+ Clip & Inject  --play-->  a virtual OUTPUT you already have
+                           ("Voicemod Virtual Audio Device", "CABLE Input",
+                            or a real output with Windows "Listen to this
+                            device" turned on)
+                                   |
+                                   v   (loops back internally)
+                           the matching MICROPHONE endpoint
+                           ("Microphone (Voicemod ...)", "CABLE Output", ...)
+                                   |
+                                   v
+                           Fortnite / Discord mic  -->  teammates hear it
+```
+
+The only setup: point **Fortnite's microphone** at the **same** virtual device
+you choose as the tool's **inject output**. Pick whichever you already have:
+
+| You already run… | Inject output (in the tool) | Fortnite / Discord mic |
+|------------------|-----------------------------|------------------------|
+| **Voicemod**     | `Voicemod Virtual Audio Device` | `Microphone (Voicemod Virtual Audio Device)` |
+| **VB-Audio CABLE** | `CABLE Input`             | `CABLE Output`         |
+| **Nothing (zero installs)** | a real output with *Listen to this device* on, or **Stereo Mix** | that same loopback |
+
+With Voicemod it already works: its virtual device is a loopback, so playing
+into its output side comes out of its mic side, mixed in with your real voice.
+Your friends can then do the exact same thing so they hear **their own** voice —
+the trolling loop you described.
+
+## Install & run
+
+Requires **Python 3.8+**.
+
+```bash
+pip install -r requirements.txt      # sounddevice + numpy + pynput (pyttsx3 optional)
+python clip_gui.py                   # control panel (recommended)
+python clip_audio.py                 # console / hotkey-only, no window
+python clip_audio.py --devices       # list audio devices with their indexes
+```
+
+`sounddevice` bundles PortAudio and, on **Windows**, supports **WASAPI
+loopback**, so "capture from" can be an *output* device — that's how the tool
+clips the **game audio you hear** rather than your mic. If loopback isn't
+available it falls back to a normal input device (your mic).
+
+## GUI
+
+A dark, Razer-Synapse-style panel (matches the macro GUI):
+
+- **AUDIO DEVICES** — three dropdowns:
+  - *Capture from* — what gets clipped (default output via loopback = game audio).
+  - *Monitor / ghost* — your headphones (ghost play + hearing your own injects).
+  - *Inject into* — the virtual output that loops to your mic
+    (auto-detects Voicemod / CABLE by name).
+- **CLIP LENGTH** slider — 1–30s for "clip last".
+- Big buttons: **CLIP LAST**, **RECORD**, **GHOST PLAY**, **INJECT PLAY**, **STOP**.
+- **HOTKEYS** — click a key-cap, press a key to (re)bind it.
+- A live activity log, plus **LOAD CLIP…** and **OPEN FOLDER**.
+
+## Default hotkeys
+
+| Key   | Action                                                    |
+|-------|-----------------------------------------------------------|
+| `F6`  | Clip the **last N seconds** (instant replay)              |
+| `F7`  | Start / stop a **manual recording**                       |
+| `F8`  | **Ghost play** the newest clip (only you hear)            |
+| `F9`  | **Inject play** the newest clip (teammates hear)          |
+| `F10` | Stop playback                                             |
+| `F12` | Quit                                                      |
+
+All keys and devices are configurable in the `CONFIG` block at the top of
+`clip_audio.py`, or live in the GUI.
+
+## Configuration (`CONFIG` in `clip_audio.py`)
+
+| Setting                   | Meaning                                                         |
+|---------------------------|-----------------------------------------------------------------|
+| `clip_last_key` … `quit_key` | The six global hotkeys                                       |
+| `clip_seconds`            | How many seconds "clip last" grabs (default 4)                  |
+| `buffer_seconds`          | Size of the always-on rolling buffer (default 30)              |
+| `samplerate` / `channels` / `blocksize` | Audio format                                     |
+| `capture_device`          | Index or name substring to clip from (`None` = default output loopback → mic) |
+| `capture_loopback`        | Try WASAPI loopback on the capture device (Windows)            |
+| `monitor_device`          | Your headphones for ghost play (`None` = default output)       |
+| `inject_device`           | The virtual output that loops to your mic (`None` = auto-detect) |
+| `monitor_while_injecting` | Also hear injected clips in your own headphones                |
+| `clip_dir`                | Folder where `.wav` clips are written                          |
+
+## Troubleshooting (Clip & Inject)
+
+- **Teammates can't hear the inject** — Fortnite's mic must be the device your
+  inject output loops into (see the table). Test in Discord's *mic test* first.
+- **Clips are silent** — your "capture from" device isn't carrying the game
+  audio. On Windows use the default **output** (loopback) or enable **Stereo
+  Mix**; if you only have a mic available, clips will record the mic instead.
+- **"No inject output set and none auto-detected"** — pick your Voicemod / CABLE
+  / Stereo-Mix output in the *Inject into* dropdown (or set `inject_device`).
+- **Hotkeys don't fire in-game** — Fortnite often runs as admin; run the tool
+  from an **administrator** terminal so its global key listener sees the keys.
+- **Choppy playback** — raise `blocksize` (e.g. 4096) in `CONFIG`.

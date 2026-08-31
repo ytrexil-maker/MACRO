@@ -1,6 +1,11 @@
-# Core input capture + playback (required)
+# Core input capture + playback, and global hotkeys (required by both tools)
 pynput>=1.7.6
 
-# Optional: spoken "GO" / "recording stopped" cues.
-# If not installed, the tool falls back to distinctive beeps.
+# Optional: spoken "GO" / "recording stopped" / clip confirmations.
+# If not installed, the tools fall back to distinctive beeps.
 pyttsx3>=2.90
+
+# --- Clip & Inject tool (clip_audio.py / clip_gui.py) only ---
+# Audio capture (incl. Windows WASAPI loopback) + playback to a chosen device.
+sounddevice>=0.5.0
+numpy>=1.21

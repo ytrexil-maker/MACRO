@@ -3,3 +3,7 @@ __pycache__/
 macro.json
 .venv/
 venv/
+
+# Clip & Inject output
+clips/
+*.wav
